@@ -32,7 +32,7 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
             view = inflater.inflate(R.layout.frame_recyclerview_eventoslarge,null);
 
         TextView title = view.findViewById(R.id.titleTextView);
-        TextView date = view.findViewById(R.id.dateTextView);
+        TextView date =  view.findViewById(R.id.dateTextView);
         title.setText(this.eventoArtistaArrayList.get(position).titulo);
         title.setText(this.eventoArtistaArrayList.get(position).data);
         return  view;
