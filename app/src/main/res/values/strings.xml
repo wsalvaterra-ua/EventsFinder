@@ -1,4 +1,7 @@
 <resources>
+    <string name="artist">Artista</string>
+    <string name="event">Evento</string>
+    <string name="location">Localização</string>
     <string name="app_name">Events Finder</string>
     <string-array name="titulos">
         <item>Mercury</item>

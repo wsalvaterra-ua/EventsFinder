@@ -14,57 +14,64 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/searchmenuappbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/chip_group"
+        />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recyclerViewSearchHistory"
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/bottom_nav_menu" />
 
-    <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="673dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar">
+
 
         <com.google.android.material.chip.ChipGroup
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/chip_group"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topBar"
+            app:layout_constraintBottom_toBottomOf="@id/recyclerViewSearchHistory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             app:singleLine="true"
-            app:singleSelection="true"
-            >
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
             <com.google.android.material.chip.Chip
-                android:id="@+id/chipEvent"
+                android:id="@+id/chipArtist"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
 
-                android:text="Evento"/>
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chidArtist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:text="@string/artist" />
 
-                android:text="Artista"/>
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipLocation"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:checked="true"
+                android:text="@string/location" />
 
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:text="Localização"/>
+
         </com.google.android.material.chip.ChipGroup>
-    </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSearchHistory"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chip_group"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#6E1B1B"
     tools:context=".Fragmentos.FollowingFragment">
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:singleLine="true"
+        app:selectionRequired="true"
+        app:singleSelection="true">
 
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipEvent"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/event" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipArtist"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/artist" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipLocation"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/location" />
+
+
+    </com.google.android.material.chip.ChipGroup>
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

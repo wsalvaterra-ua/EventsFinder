@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,10 +13,15 @@ import android.view.View;
 import android.widget.SearchView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
 import com.ua.eventsfinder.Fragmentos.FollowingFragment;
 import com.ua.eventsfinder.Fragmentos.HomeFragment;
 import com.ua.eventsfinder.Fragmentos.SearchFragment;
+import com.ua.eventsfinder.Objetos.Evento;
+import com.ua.eventsfinder.Objetos.EventoArtista;
 import com.ua.eventsfinder.R;
+
+import java.util.ArrayList;
 
 public class SearchResultsActivity extends AppCompatActivity {
 
@@ -44,6 +50,21 @@ public class SearchResultsActivity extends AppCompatActivity {
             }
             return  true;
         });
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewSearchHistory);
+        ArrayList<EventoArtista> eventos= new ArrayList<>();
+        setEventos(eventos);
+        EventoViewThinAdapter adapter = new EventoViewThinAdapter(this,eventos);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void  setEventos(ArrayList<EventoArtista> eventos){
+        String[] eventosTitulo = getResources().getStringArray(R.array.titulos);
+        String[] eventosData = getResources().getStringArray(R.array.datas);
+        String[] eventosLocalizacao = getResources().getStringArray(R.array.localizacoes);
+        for (int i =0 ;i<eventosData.length;i++)
+            eventos.add(new Evento(eventosTitulo[i] ,eventosData[i],eventosLocalizacao[i] ));
+
     }
 
     private void replaceFramework(Fragment fragment){
@@ -62,9 +83,8 @@ public class SearchResultsActivity extends AppCompatActivity {
         searchView.setIconifiedByDefault(true);
         searchView.setFocusable(true);
         searchView.setIconified(false);
-        searchView.setQueryHint("Search Events, Artists, Locations");
+        searchView.setQueryHint("Search Artists, Locations");
         searchView.requestFocusFromTouch();
-
 
         return true;
     }
