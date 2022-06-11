@@ -15,21 +15,21 @@ import com.ua.eventsfinder.Fragmentos.FollowingFragment;
 import com.ua.eventsfinder.Fragmentos.HomeFragment;
 import com.ua.eventsfinder.Fragmentos.SearchFragment;
 import com.ua.eventsfinder.Objetos.Evento;
-import com.ua.eventsfinder.databinding.ActivityMainBinding;
+
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar mainToolbar;
-    ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+
         setContentView(R.layout.activity_main);
          BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        replaceFramework(new HomeFragment());
+        replaceFramework(new SearchFragment());
          bottomNavigationView.setOnItemSelectedListener(item ->{
              switch(item.getItemId()) {
                  case R.id.homeBtn:

@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter;
 import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
+import com.ua.eventsfinder.Atividades.SearchResultsActivity;
 import com.ua.eventsfinder.Objetos.Evento;
 import com.ua.eventsfinder.Objetos.EventoArtista;
 import com.ua.eventsfinder.R;
@@ -77,13 +79,25 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(eventoViewLargeGridAdapter);
         EventoViewLargeGridAdapter eventoViewLargeGridAdapterHistory = new EventoViewLargeGridAdapter(eventos,view.getContext());
         ((RecyclerView)view.findViewById(R.id.recyclerViewSearchHistory)).setAdapter(eventoViewLargeGridAdapter);
+
+
+        Button btn = (Button) view.findViewById(R.id.btnOpenSearchActivity);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), SearchResultsActivity.class);
+                view.getContext().startActivity(intent);}
+        });
+
         return  view;
     }
 
-    private void openSearchBar(View view){
-//        Intent intent = new Intent()
-
-    }
+//    public void openSearchBar(View view) {
+//
+//            Intent intent = new Intent( getActivity(),SearchResultsActivity.class);
+//            startActivity(intent);
+//
+//    }
     private void  setEventos(ArrayList<EventoArtista> eventos){
         String[] eventosTitulo = getResources().getStringArray(R.array.titulos);
         String[] eventosData = getResources().getStringArray(R.array.datas);
@@ -92,4 +106,8 @@ public class SearchFragment extends Fragment {
             eventos.add(new Evento(eventosTitulo[i] ,eventosData[i],eventosLocalizacao[i] ));
 
     }
+
+
+
+
 }
