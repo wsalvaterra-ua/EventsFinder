@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 //        ActionBar actionBar = getActionBar();
 //        actionBar.setDisplayShowTitleEnabled(false);
 //        actionBar.setDisplayShowHomeEnabled(false);
-//        menu
+//        men
         return true;
     }
 }
