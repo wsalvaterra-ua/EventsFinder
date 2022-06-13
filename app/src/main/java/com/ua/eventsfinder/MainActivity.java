@@ -6,18 +6,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.Menu;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.ua.eventsfinder.Atividades.ArtistActivity;
-import com.ua.eventsfinder.Atividades.SearchResultsActivity;
+import com.ua.eventsfinder.Atividades.eventActivity;
 import com.ua.eventsfinder.Fragmentos.FollowingFragment;
 import com.ua.eventsfinder.Fragmentos.HomeFragment;
 import com.ua.eventsfinder.Fragmentos.SearchFragment;
@@ -26,15 +21,6 @@ import com.ua.eventsfinder.Objetos.Evento;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
-
-import ru.blizzed.opensongkick.ApiCallException;
-import ru.blizzed.opensongkick.ApiCaller;
-import ru.blizzed.opensongkick.ApiErrorException;
-import ru.blizzed.opensongkick.OpenSongKickContext;
-import ru.blizzed.opensongkick.SongKickApi;
-import ru.blizzed.opensongkick.models.Location;
-import ru.blizzed.opensongkick.models.ResultsPage;
-import ru.blizzed.opensongkick.params.SongKickParams;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar mainToolbar;
@@ -63,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
              return  true;
          });
 
-        Intent intent = new Intent(this, ArtistActivity.class);
+        Intent intent = new Intent(this, eventActivity.class);
         this.startActivity(intent);
     }
     public boolean isInternetAvailable() {

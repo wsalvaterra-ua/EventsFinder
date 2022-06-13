@@ -13,7 +13,7 @@
         android:theme="@style/Theme.EventsFinder"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Atividades.ArtistActivity"
+            android:name=".Atividades.eventActivity"
             android:parentActivityName=".Atividades.SearchResultsActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
