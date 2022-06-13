@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -15,6 +16,8 @@ import android.view.Menu;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+import com.ua.eventsfinder.Atividades.ArtistActivity;
+import com.ua.eventsfinder.Atividades.SearchResultsActivity;
 import com.ua.eventsfinder.Fragmentos.FollowingFragment;
 import com.ua.eventsfinder.Fragmentos.HomeFragment;
 import com.ua.eventsfinder.Fragmentos.SearchFragment;
@@ -40,68 +43,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+//
+        setContentView(R.layout.activity_main);
 
-        setContentView(R.layout.activity_artist);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        replaceFramework(new SearchFragment());
+         bottomNavigationView.setOnItemSelectedListener(item ->{
+             switch(item.getItemId()) {
+                 case R.id.homeBtn:
+                    replaceFramework(new HomeFragment());
+                 break;
+                 case R.id.searchBtn:
+                    replaceFramework(new SearchFragment());
+                 break;
+                 case R.id.followingBtn:
+                    replaceFramework(new FollowingFragment());
+                 break;
+             }
+             return  true;
+         });
 
-        StrictMode.setThreadPolicy(policy);
-        double lat = 48.1550547;
-        double lon = 11.4017526;
-
-        System.out.print("ddd" + Boolean.toString(isInternetAvailable()) + " SD\n\n\n\n\n\nkkkkkkkkkkk\n\n\n\n\n" +
-                "\n\n\n\n\n\n\n\n\n\n" +
-                "\n\n\n\n\n" +
-                "\n\n\n\n\n\n\n\n\n\n" +
-                "\n\n\n\n\n" +
-                "\n\n\n\n\n" +
-                "\n\n\n\n\n" +
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" +
-                "kLLLL\ndddddddddd");
-        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
-
-        SongKickApi.locationSearch().byQuery("Portugal").execute(new ApiCaller.Listener<ResultsPage<Location>>() {
-            @Override
-            public void onComplete(ResultsPage<Location> result, ApiCaller<ResultsPage<Location>> apiCaller) {
-                System.out.println("Resulta:" + (new Gson()).toJson( result.getResults()));
-
-            }
-
-            public void onError(Error error, ApiCaller<ResultsPage<Location>> apiCaller) {
-                /* This method triggers you when API has been called but response contains an error */
-                // Handle Api Error
-                System.out.println("Ressadasasdulta:");
-            }
-            @Override
-            public void onFailure(ApiCallException e, ApiCaller<ResultsPage<Location>> apiCaller) {
-                /* This method triggers you when call to API cannot be established. E.g. no internet connection */
-                // Handle Failure
-                System.out.println("REEesultdadsaa:");
-            }
-        });
-
-//         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-//        replaceFramework(new SearchFragment());
-//         bottomNavigationView.setOnItemSelectedListener(item ->{
-//             switch(item.getItemId()) {
-//                 case R.id.homeBtn:
-//                    replaceFramework(new HomeFragment());
-//                 break;
-//                 case R.id.searchBtn:
-//                    replaceFramework(new SearchFragment());
-//                 break;
-//                 case R.id.followingBtn:
-//                    replaceFramework(new FollowingFragment());
-//                 break;
-//             }
-//             return  true;
-//         });
-
-//        setSupportActionBar((Toolbar) findViewById(R.id.mainToolbar));
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMain);
-//        ArrayList<Evento> eventos= new ArrayList<>();
-//        setEventos(eventos);
-//        eventosRecyclerViewAdapter adapter = new eventosRecyclerViewAdapter(this,eventos);
-//        recyclerView.setAdapter(adapter);
+        Intent intent = new Intent(this, ArtistActivity.class);
+        this.startActivity(intent);
     }
     public boolean isInternetAvailable() {
         try {
@@ -130,13 +93,9 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);
          super.getMenuInflater().inflate(R.menu.main_appbar, menu);
-//        ActionBar actionBar = getActionBar();
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setDisplayShowHomeEnabled(false);
-//        men
+
         return true;
     }
 }
