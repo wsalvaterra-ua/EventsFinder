@@ -56,9 +56,9 @@ public class EventoViewThinAdapter extends RecyclerView.Adapter<EventoViewThinAd
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            titulo = (TextView) itemView.findViewById(R.id.eventTitleTextView);
-            data = (TextView) itemView.findViewById(R.id.eventDateTextView);
-            localizacao = (TextView) itemView.findViewById(R.id.eventLocationTextView);
+            titulo = (TextView) itemView.findViewById(R.id.titleTextView);
+            data = (TextView) itemView.findViewById(R.id.dateTextView);
+            localizacao = (TextView) itemView.findViewById(R.id.locationTextView);
 
             view = itemView;
         }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
 import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import ru.blizzed.opensongkick.ApiCaller;
 import ru.blizzed.opensongkick.ApiErrorException;
 import ru.blizzed.opensongkick.OpenSongKickContext;
 import ru.blizzed.opensongkick.SongKickApi;
+import ru.blizzed.opensongkick.models.Artist;
 import ru.blizzed.opensongkick.models.Event;
 import ru.blizzed.opensongkick.models.ResultsPage;
 import ru.blizzed.opensongkick.params.SongKickParams;
@@ -48,6 +51,7 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         this.latitude = 0;
         this.longitude = 0;
+        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
         // Required empty public constructor
     }
 
@@ -83,34 +87,54 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
-
+        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
+        try {
+            SongKickApi.artistSearch().byName("Justin").execute().getResults().forEach(System.out::println);
+        } catch (ApiCallException | ApiErrorException e) {
+            // Handle error
+            System.out.println(new Gson().toJson(e));
+        }
+        SongKickApi.artistSearch().byName("Justin")
+                .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
+                    @Override
+                    public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
+//                        ArrayList<Object> eventos = new ArrayList(result.getResults().subList(0,35));
+                        System.out.println(new Gson().toJson(result.getResults()));
+                        System.out.println("Olaa");
+                        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragmentSearchRecyclerViewMain);
+//                                    EventoViewLargeGridAdapter2 adapter = new EventoViewLargeGridAdapter2(eventos,mContext);
+//                                    recyclerView.setAdapter(adapter);
+                    }
+                    public void onError(Error error, ApiCaller<ResultsPage<Artist>> apiCaller) {
+                        System.out.println(error.getCause());
+                        /* This method triggers you when API has been called but response contains an error */
+                        // Handle Api Error
+                    }
+                    @Override
+                    public void onFailure(ApiCallException e, ApiCaller<ResultsPage<Artist>> apiCaller) {
+                        /* This method triggers you when call to API cannot be established. E.g. no internet connection */
+                        // Handle Failure
+                        System.out.println(e.getCause());
+                    }
+                });
 
 
         getLocation(view);
         return  view;
     }
 
-    private void  setEventos(ArrayList<EventoArtista> eventos){
-        String[] eventosTitulo = getResources().getStringArray(R.array.titulos);
-        String[] eventosData = getResources().getStringArray(R.array.datas);
-        String[] eventosLocalizacao = getResources().getStringArray(R.array.localizacoes);
-        for (int i =0 ;i<eventosData.length;i++)
-            eventos.add(new Evento(eventosTitulo[i] ,eventosData[i],eventosLocalizacao[i] ));
-
-    }
 
     public void getLocation(View view){
-        System.out.println("Teste");
         GpsTracker gpsTracker = new GpsTracker(view.getContext());
         if(gpsTracker.canGetLocation()){
             this.latitude = gpsTracker.getLatitude();
             this.longitude = gpsTracker.getLongitude();
-
-            System.out.println("Lat: " + String.valueOf(latitude));
-            System.out.println("Long: " + String.valueOf(longitude));
+//
+//            System.out.println("Lat: " + String.valueOf(latitude));
+//            System.out.println("Long: " + String.valueOf(longitude));
             getByloc(view);
         }else{
-            System.out.println("Erro");
+//            System.out.println("Erro");
             gpsTracker.showSettingsAlert();
 
         }
@@ -118,14 +142,14 @@ public class HomeFragment extends Fragment {
 
     public void getByloc(View view){
 
-        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
 
+    Evento evento;
              SongKickApi.eventSearch()
                     .byLocation(SongKickParams.LOCATION_GEO.of(latitude, longitude))
                     .execute(new ApiCaller.Listener<ResultsPage<Event>>() {
                         @Override
                         public void onComplete(ResultsPage<Event> result, ApiCaller<ResultsPage<Event>> apiCaller) {
-                            result.getResults();
+
                             ArrayList<Object> eventos = new ArrayList(result.getResults());
                             RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewMain);
 

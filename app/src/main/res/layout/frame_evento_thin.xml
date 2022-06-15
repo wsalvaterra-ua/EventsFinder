@@ -52,20 +52,20 @@
 
 
                 <TextView
-                    android:id="@+id/eventTitleTextView"
+                    android:id="@+id/titleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:text="Titulo" />
 
                 <TextView
-                    android:id="@+id/eventDateTextView"
+                    android:id="@+id/dateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Data" />
 
                 <TextView
-                    android:id="@+id/eventLocationTextView"
+                    android:id="@+id/locationTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Localização" />

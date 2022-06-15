@@ -14,30 +14,39 @@
         <Button
             android:id="@+id/btnOpenSearchActivity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@color/purple_200"
             android:text="Search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/recyclerViewSearchHistory"
+            app:layout_constraintBottom_toTopOf="@id/frameLayoutRecentSearchs"
             app:layout_constraintVertical_weight="1"
+            tools:layout_height="wrap_content"
             />
+<FrameLayout
+    android:id="@+id/frameLayoutRecentSearchs"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:background="#88B56F"
+    android:orientation="horizontal"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    app:layout_constraintBottom_toTopOf="@+id/fragmentSearchRecyclerViewMain"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/btnOpenSearchActivity"
+    app:layout_constraintVertical_weight="2"
+    tools:layout_height="100dp">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSearchHistory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#88B56F"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:layout_height="100dp" />
+</FrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewSearchHistory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="#88B56F"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/fragmentSearchRecyclerViewMain"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnOpenSearchActivity"
-            app:layout_constraintVertical_weight="3"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:layout_height="100dp"
-            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragmentSearchRecyclerViewMain"
@@ -49,7 +58,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerViewSearchHistory"
+            app:layout_constraintTop_toBottomOf="@id/frameLayoutRecentSearchs"
             app:layout_constraintVertical_weight="8"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="3"

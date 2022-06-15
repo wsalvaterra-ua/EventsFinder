@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -13,13 +12,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter;
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
+import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter2;
 import com.ua.eventsfinder.Atividades.SearchResultsActivity;
-import com.ua.eventsfinder.Objetos.Evento;
 import com.ua.eventsfinder.Objetos.EventoArtista;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
+
+import ru.blizzed.opensongkick.ApiCaller;
+import ru.blizzed.opensongkick.OpenSongKickContext;
+import ru.blizzed.opensongkick.SongKickApi;
+import ru.blizzed.opensongkick.models.Artist;
+import ru.blizzed.opensongkick.models.ResultsPage;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +42,7 @@ public class SearchFragment extends Fragment {
     private String mParam2;
 
     public SearchFragment() {
+        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
         // Required empty public constructor
     }
 
@@ -72,13 +77,8 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragmentSearchRecyclerViewMain);
-        ArrayList<EventoArtista> eventos= new ArrayList<>();
-        setEventos(eventos);
-        EventoViewLargeGridAdapter eventoViewLargeGridAdapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
-        recyclerView.setAdapter(eventoViewLargeGridAdapter);
-        EventoViewLargeGridAdapter eventoViewLargeGridAdapterHistory = new EventoViewLargeGridAdapter(eventos,view.getContext());
-        ((RecyclerView)view.findViewById(R.id.recyclerViewSearchHistory)).setAdapter(eventoViewLargeGridAdapter);
+
+
 
 
         Button btn = (Button) view.findViewById(R.id.btnOpenSearchActivity);
@@ -88,25 +88,47 @@ public class SearchFragment extends Fragment {
                 Intent intent = new Intent(view.getContext(), SearchResultsActivity.class);
                 view.getContext().startActivity(intent);}
         });
-
+        loadRecentSearchesIntoView(view);
+        loadSimiliarArtistIntoView(view);
         return  view;
     }
 
-//    public void openSearchBar(View view) {
-//
-//            Intent intent = new Intent( getActivity(),SearchResultsActivity.class);
-//            startActivity(intent);
-//
-//    }
-    private void  setEventos(ArrayList<EventoArtista> eventos){
-        String[] eventosTitulo = getResources().getStringArray(R.array.titulos);
-        String[] eventosData = getResources().getStringArray(R.array.datas);
-        String[] eventosLocalizacao = getResources().getStringArray(R.array.localizacoes);
-        for (int i =0 ;i<eventosData.length;i++)
-            eventos.add(new Evento(eventosTitulo[i] ,eventosData[i],eventosLocalizacao[i] ));
+
+    public void loadSimiliarArtistIntoView(View view){
+
+
+
+        SongKickApi.similarArtists("2596951")
+                .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
+                    @Override
+                    public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
+                        ArrayList<Object> eventos = new ArrayList(result.getResults().subList(0,35));
+                        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragmentSearchRecyclerViewMain);
+
+                        EventoViewLargeGridAdapter2 adapter = new EventoViewLargeGridAdapter2(eventos,view.getContext());
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+    }
+    private  void  loadRecentSearchesIntoView(View view){
+
+
+
+        SongKickApi.similarArtists("99074")
+                .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
+                    @Override
+                    public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
+                        ArrayList<Object> eventos = new ArrayList(result.getResults().subList(0,35));
+                        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragmentSearchRecyclerViewMain);
+
+                        EventoViewLargeGridAdapter2 eventoViewLargeGridAdapter = new EventoViewLargeGridAdapter2(eventos,view.getContext());
+
+                        ((RecyclerView)view.findViewById(R.id.recyclerViewSearchHistory)).setAdapter(eventoViewLargeGridAdapter);
+                    }
+                });
+
 
     }
-
 
 
 

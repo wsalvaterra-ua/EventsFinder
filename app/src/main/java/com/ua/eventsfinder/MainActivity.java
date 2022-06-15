@@ -44,14 +44,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_main);
 
 
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         replaceFramework(new HomeFragment());
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.homeBtn:
@@ -77,16 +75,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 //        Intent intent = new Intent(this, artistActivity.class);
 //        this.startActivity(intent);
 
-
     }
-
-
-
-
 
     private void replaceFramework(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();

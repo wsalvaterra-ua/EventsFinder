@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.widget.SearchView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter2;
 import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
 import com.ua.eventsfinder.Fragmentos.FollowingFragment;
 import com.ua.eventsfinder.Fragmentos.HomeFragment;
@@ -23,19 +26,31 @@ import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
 
+import ru.blizzed.opensongkick.ApiCaller;
+import ru.blizzed.opensongkick.SongKickApi;
+import ru.blizzed.opensongkick.models.Artist;
+import ru.blizzed.opensongkick.models.ResultsPage;
+import ru.blizzed.opensongkick.params.SongKickParams;
+
 public class SearchResultsActivity extends AppCompatActivity {
+private final SearchResultsActivity mContext;
+
+    public SearchResultsActivity() {
+        this.mContext = this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_results);
+        this.setContentView(R.layout.activity_search_results);
         setSupportActionBar(findViewById(R.id.topBar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.searchBtn);
+
         bottomNavigationView.setOnItemSelectedListener(item ->{
             switch(item.getItemId()) {
                 case R.id.homeBtn:
@@ -84,8 +99,38 @@ public class SearchResultsActivity extends AppCompatActivity {
         searchView.setFocusable(true);
         searchView.setIconified(false);
         searchView.setQueryHint("Search Artists, Locations");
-        searchView.requestFocusFromTouch();
 
+        searchView.requestFocusFromTouch();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                System.out.println(newText);
+
+
+                    SongKickApi.artistSearch().byName(newText)
+                            .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
+                                @Override
+                                public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
+                                    ArrayList<Object> eventos = new ArrayList(result.getResults().subList(0,35));
+                                    RecyclerView recyclerView = (RecyclerView) mContext.findViewById(R.id.fragmentSearchRecyclerViewMain);
+                                    System.out.println(new Gson().toJson(eventos));
+//                                    EventoViewLargeGridAdapter2 adapter = new EventoViewLargeGridAdapter2(eventos,mContext);
+//                                    recyclerView.setAdapter(adapter);
+                                }
+                            });
+
+
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+        });
         return true;
     }
 
