@@ -28,7 +28,7 @@ public class EventoViewLargeGridAdapter2 extends RecyclerView.Adapter<EventoView
     public View getView(int position, View view, ViewGroup viewGroup) {
         if(inflater == null)
             inflater = (LayoutInflater)  context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if(view == null)
+        if(view == null) 
             view = inflater.inflate(R.layout.frame_recyclerview_eventoslarge,null);
 
         TextView title = view.findViewById(R.id.titleTextView);
