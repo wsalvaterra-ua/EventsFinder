@@ -1,6 +1,7 @@
 package com.ua.eventsfinder.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+import com.ua.eventsfinder.Atividades.artistActivity;
+import com.ua.eventsfinder.Atividades.eventActivity;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
@@ -41,8 +45,9 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         if(lista.get(position) instanceof  Event)
             handleEvent(holder,(Event) lista.get(position));
-        else if(lista.get(position) instanceof  Event)
+        else if(lista.get(position) instanceof  Artist)
             handleArtist(holder,(Artist) lista.get(position));
+        holder.setObjetoAEnviar(lista.get(position),context);
 
     }
 
@@ -56,7 +61,7 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
         )
                 :evento.getLocation().getDisplayName();
         String data =(full.lastIndexOf("(")>0)? full.substring(
-                full.lastIndexOf("(")+1,full.length()-1)
+                full.lastIndexOf("(")+1,full.length()-2)
                 :evento.getStart().getDate();
         holder.titulo.setText(titulo);
         holder.data.setText( data);
@@ -77,7 +82,7 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
 
     private void  handleArtist(MyViewHolder holder, Artist artist){
         holder.titulo.setText(artist.getDisplayName());
-        holder.data.setText("Touring until: " + artist.getOnTourUntil());
+        holder.data.setText((artist.getOnTourUntil() !=null) ? "Touring until: " + artist.getOnTourUntil():"Not touring");
         holder.localizacao.setText( "");
         String url = "https://images.sk-static.com/images/media/profile_images/artists/"+artist.getId()+"/huge_avatar";
         Picasso.get()
@@ -93,22 +98,42 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
         return lista.size();
     }
 
-    public  static class MyViewHolder extends  RecyclerView.ViewHolder{
-
+    public  static class MyViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
+        private Object objetoAEnviar;
+        private  Context context;
         private  View view;
         public TextView titulo;
         public TextView data;
         public TextView localizacao;
         public ImageView imageView;
 
-
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+
             titulo = (TextView) itemView.findViewById(R.id.titleTextView);
             data = (TextView) itemView.findViewById(R.id.dateTextView);
             localizacao = (TextView) itemView.findViewById(R.id.locationTextView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
             view = itemView;
+        }
+
+        public void setObjetoAEnviar(Object objetoAEnviar , Context context) {
+            this.context = context;
+            this.objetoAEnviar = objetoAEnviar;
+        }
+        @Override
+        public void onClick(View view) {
+            Intent intent = null;
+            if(objetoAEnviar instanceof  Event) {
+                intent = new Intent(context,  eventActivity.class);
+                intent.putExtra("event", (new Gson()).toJson(objetoAEnviar));
+            }
+            else if(objetoAEnviar instanceof  Artist) {
+                intent = new Intent(context,  artistActivity.class);
+                intent.putExtra("artist", (new Gson()).toJson(objetoAEnviar));
+            }
+            context.startActivity(intent);
         }
     }
 }

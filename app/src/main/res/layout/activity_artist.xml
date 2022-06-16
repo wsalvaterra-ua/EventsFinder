@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Atividades.artistActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/topBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/scroller"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
     <ScrollView
         android:id="@+id/scroller"
@@ -23,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/scrollableLayout"
@@ -41,13 +32,13 @@
 
 
                 <ImageView
-                    android:id="@+id/imageEvent"
+                    android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/artist"
-                    android:src="@drawable/aaaa" />
+                    android:src="@drawable/default_event" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -62,11 +53,11 @@
 
 
                     <TextView
-                        android:id="@+id/TextViewId"
+                        android:id="@+id/textViewName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:text="Twenty One Pilots"
+                        android:text="@string/artist"
                         android:textColor="#FAFAFA"
                         android:textSize="34sp"
                         app:layout_constraintBottom_toTopOf="@id/chipFavorite"
@@ -78,12 +69,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checkable="true"
-                        android:text="Follow"
+                        android:text="@string/follow"
                         app:checkedIcon="@drawable/ic_baseline_favorite_24"
                         app:chipIcon="@drawable/ic_outline_favorite_border_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/TextViewId"/>
+                        app:layout_constraintTop_toBottomOf="@id/textViewName"/>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -122,7 +113,7 @@
                         <ImageView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:contentDescription="Data"
+                            android:contentDescription="@string/app_name"
                             app:srcCompat="@drawable/ic_baseline_calendar_month_24" />
 
                         <TextView
@@ -130,7 +121,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:text="Tour ends in Saturday 11 December 2022"
+                            android:text="@string/loading"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -146,11 +137,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
-                        android:text="Upcoming Events"
+                        android:text="@string/upcomingevents"
                         android:textSize="28sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewMain"
+                        android:id="@+id/recyclerViewUpcomingEvents"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -159,7 +150,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
-                        android:text="Similiar Artists"
+                        android:text="@string/similiarartists"
                         android:textSize="28sp" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewSimiliar"
@@ -174,7 +165,16 @@
 
             </LinearLayout>
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+        android:onClick="goBack"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

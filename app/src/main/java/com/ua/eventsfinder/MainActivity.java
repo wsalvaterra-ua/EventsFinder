@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+import com.ua.eventsfinder.Atividades.SearchResultsActivity;
 import com.ua.eventsfinder.Atividades.artistActivity;
 import com.ua.eventsfinder.Atividades.eventActivity;
 import com.ua.eventsfinder.Fragmentos.FollowingFragment;
@@ -46,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         replaceFramework(new HomeFragment());
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -65,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                .permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+
         try {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        Intent intent = new Intent(this, artistActivity.class);
+//        Intent intent = new Intent(this, SearchResultsActivity.class);
 //        this.startActivity(intent);
 
     }

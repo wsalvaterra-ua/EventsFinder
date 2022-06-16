@@ -1,6 +1,7 @@
 package com.ua.eventsfinder.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+import com.ua.eventsfinder.Atividades.artistActivity;
+import com.ua.eventsfinder.Atividades.eventActivity;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
@@ -20,7 +24,6 @@ import ru.blizzed.opensongkick.models.Event;
 
 public class EventoViewLargeGridAdapter2 extends RecyclerView.Adapter<EventoViewLargeGridAdapter2.MyViewHolder> {
     private final ArrayList<Object> lista;
-    private LayoutInflater inflater;
     Context context;
 
     public EventoViewLargeGridAdapter2(ArrayList<Object> lista, Context context) {
@@ -43,6 +46,7 @@ public class EventoViewLargeGridAdapter2 extends RecyclerView.Adapter<EventoView
             handleEvent(holder,(Event) lista.get(position));
         else if(lista.get(position) instanceof  Artist)
             handleArtist(holder,(Artist) lista.get(position));
+        holder.setObjetoAEnviar(lista.get(position),context);
     }
 
     private void  handleEvent(EventoViewLargeGridAdapter2.MyViewHolder holder, Event evento){
@@ -85,19 +89,42 @@ public class EventoViewLargeGridAdapter2 extends RecyclerView.Adapter<EventoView
     }
 
 
-    public  static class MyViewHolder extends  RecyclerView.ViewHolder{
-
-        private  View view;
+    public  static class MyViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
+        private Object objetoAEnviar;
+        private  Context context;
         public TextView titulo;
         public TextView data;
         public ImageView imageView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener(this);
+            objetoAEnviar = null;
             titulo = (TextView) itemView.findViewById(R.id.titleTextView);
             data = (TextView) itemView.findViewById(R.id.dateTextView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            view = itemView;
+
+        }
+
+        public void setObjetoAEnviar(Object objetoAEnviar , Context context) {
+            this.context = context;
+            this.objetoAEnviar = objetoAEnviar;
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            Intent intent = null;
+            if(objetoAEnviar instanceof  Event) {
+                intent = new Intent(context,  eventActivity.class);
+                intent.putExtra("event", (new Gson()).toJson(objetoAEnviar));
+            }
+            else if(objetoAEnviar instanceof  Artist) {
+                intent = new Intent(context,  artistActivity.class);
+                intent.putExtra("artist", (new Gson()).toJson(objetoAEnviar));
+            }
+            context.startActivity(intent);
         }
     }
 }

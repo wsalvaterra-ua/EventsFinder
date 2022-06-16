@@ -4,40 +4,89 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter;
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
-import com.ua.eventsfinder.Objetos.Evento;
-import com.ua.eventsfinder.Objetos.EventoArtista;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter2;
+import com.ua.eventsfinder.Adapters.EventoViewThinAdapter2;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import ru.blizzed.opensongkick.ApiCaller;
+import ru.blizzed.opensongkick.OpenSongKickContext;
+import ru.blizzed.opensongkick.SongKickApi;
+import ru.blizzed.opensongkick.models.Artist;
+import ru.blizzed.opensongkick.models.Event;
+import ru.blizzed.opensongkick.models.ResultsPage;
 
 public class artistActivity extends AppCompatActivity {
-
+    private Artist artist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
         setSupportActionBar(findViewById(R.id.topBar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Bundle extras = getIntent().getExtras();
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMain);
-        ArrayList<EventoArtista> eventos= new ArrayList<>();
-        setEventos(eventos);
-        EventoViewThinAdapter adapter = new EventoViewThinAdapter(this,eventos);
-        recyclerView.setAdapter(adapter);
+        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
 
-        EventoViewLargeGridAdapter eventoViewLargeGridAdapterHistory = new EventoViewLargeGridAdapter(eventos,this);
-        ((RecyclerView)findViewById(R.id.recyclerViewSimiliar)).setAdapter(eventoViewLargeGridAdapterHistory);
-    }
-
-    private void  setEventos(ArrayList<EventoArtista> eventos){
-        String[] eventosTitulo = getResources().getStringArray(R.array.titulos);
-        String[] eventosData = getResources().getStringArray(R.array.datas);
-        String[] eventosLocalizacao = getResources().getStringArray(R.array.localizacoes);
-        for (int i =0 ;i<eventosData.length;i++)
-            eventos.add(new Evento(eventosTitulo[i] ,eventosData[i],eventosLocalizacao[i] ));
+        if (extras != null)
+            this.artist=new Gson().fromJson(extras.getString("artist"),Artist.class) ;
+        fillElements();
 
     }
+    private  void fillElements(){
+        ((TextView) findViewById(R.id.textViewName)).setText(artist.getDisplayName());
+
+        ((TextView) findViewById(R.id.textViewDate)).setText("Touring Until: " + artist.getOnTourUntil());
+        String url = "https://images.sk-static.com/images/media/profile_images/artists/"+artist.getId()+"/huge_avatar";
+        Picasso.get()
+                .load(url).placeholder(R.drawable.default_event).error(R.drawable.default_event)
+                .into((ImageView)findViewById(R.id.imageView));
+        loadUpcomingEvents(this);
+        loadSimiliarArtists(this);
+
+    }
+
+
+    public void loadUpcomingEvents(artistActivity context){
+
+        SongKickApi.artistCalendar().byId(String.valueOf(artist.getId()))
+                .execute(new ApiCaller.Listener<ResultsPage<Event>>() {
+                    @Override
+                    public void onComplete(ResultsPage<Event> result, ApiCaller<ResultsPage<Event>> apiCaller) {
+
+                        ArrayList<Object> eventos = new ArrayList(result.getResults());
+                        RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewUpcomingEvents);
+
+                        EventoViewThinAdapter2 adapter = new EventoViewThinAdapter2(context,eventos);
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+    }
+    public void loadSimiliarArtists(artistActivity context){
+
+        SongKickApi.similarArtists(String.valueOf(artist.getId()))
+                .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
+                    @Override
+                    public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
+                        ArrayList<Object> eventos = new ArrayList(result.getResults());
+                        RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewSimiliar);
+
+                        EventoViewLargeGridAdapter2 adapter = new EventoViewLargeGridAdapter2(eventos,context);
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+    }
+
+    public void goBack(View view) {
+        finish();
+    }
+
 }

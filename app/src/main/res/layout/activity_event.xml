@@ -7,24 +7,15 @@
     tools:context=".Atividades.eventActivity">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/topBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/scroller"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
     <ScrollView
         android:id="@+id/scroller"
-        android:layout_height="0dp"
         android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/scrollableLayout"
@@ -42,18 +33,21 @@
 
 
                 <ImageView
-                    android:id="@+id/imageEvent"
+                    android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/artist"
-                    android:src="@drawable/aaaa" />
+                    android:src="@drawable/default_event" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/gradient_bg" />
+                    android:background="@drawable/gradient_bg">
+
+
+                </FrameLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/linearLayout"
@@ -63,7 +57,7 @@
 
 
                     <TextView
-                        android:id="@+id/TextViewId"
+                        android:id="@+id/textViewName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -78,13 +72,17 @@
                         android:id="@+id/chipFavorite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:buttonTint="#1D3981"
                         android:checkable="true"
                         android:text="Follow"
+                        android:textColor="@color/purple_700"
                         app:checkedIcon="@drawable/ic_baseline_favorite_24"
+                        app:checkedIconTint="#D52E2E"
+                        app:chipBackgroundColor="@color/purple_200"
                         app:chipIcon="@drawable/ic_outline_favorite_border_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/TextViewId"/>
+                        app:layout_constraintTop_toBottomOf="@id/textViewName" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -169,12 +167,12 @@
                 </androidx.cardview.widget.CardView>
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:text="Tickets"
-                        android:textSize="28sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="Tickets"
+                    android:textSize="28sp" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -227,7 +225,7 @@
                         android:textSize="28sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewMain"
+                        android:id="@+id/recyclerViewUpcomingEvents"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
@@ -251,7 +249,15 @@
                 app:srcCompat="@drawable/ic_baseline_edit_calendar_24" />
 
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:onClick="goBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

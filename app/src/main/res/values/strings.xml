@@ -3,6 +3,13 @@
     <string name="event">Evento</string>
     <string name="location">Localização</string>
     <string name="app_name">Events Finder</string>
+    <string name="follow">Follow</string>
+    <string name="loading">Loading…</string>
+
+    <string name="touring_until">Touring Until: %1$s</string>
+    <string name="offTour">Off Tour</string>
+    <string name="similiarartists">Similiar Artists</string>
+    <string name="upcomingevents">Upcoming Events</string>
     <string-array name="titulos">
         <item>Mercury</item>
         <item>Venus</item>

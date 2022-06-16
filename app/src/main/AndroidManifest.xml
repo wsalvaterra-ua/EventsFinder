@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,18 +17,17 @@
         android:theme="@style/Theme.EventsFinder"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".locationActivity"
+            android:exported="false" />
+        <activity
             android:name=".Atividades.artistActivity"
-            android:parentActivityName=".Atividades.SearchResultsActivity"/>
+            android:parentActivityName=".Atividades.SearchResultsActivity" />
         <activity
             android:name=".Atividades.eventActivity"
-            android:parentActivityName=".Atividades.SearchResultsActivity">
-
-        </activity>
+            android:parentActivityName=".Atividades.SearchResultsActivity"></activity>
         <activity
             android:name=".Atividades.SearchResultsActivity"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

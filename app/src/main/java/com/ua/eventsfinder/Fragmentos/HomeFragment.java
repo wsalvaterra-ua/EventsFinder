@@ -1,33 +1,24 @@
 package com.ua.eventsfinder.Fragmentos;
 
-import static java.util.stream.Collectors.toCollection;
-
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ua.eventsfinder.Adapters.EventoViewThinAdapter2;
 import com.ua.eventsfinder.Objetos.Evento;
-import com.ua.eventsfinder.Objetos.EventoArtista;
 import com.ua.eventsfinder.Objetos.GpsTracker;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import ru.blizzed.opensongkick.ApiCallException;
 import ru.blizzed.opensongkick.ApiCaller;
-import ru.blizzed.opensongkick.ApiErrorException;
 import ru.blizzed.opensongkick.OpenSongKickContext;
 import ru.blizzed.opensongkick.SongKickApi;
-import ru.blizzed.opensongkick.models.Artist;
 import ru.blizzed.opensongkick.models.Event;
 import ru.blizzed.opensongkick.models.ResultsPage;
 import ru.blizzed.opensongkick.params.SongKickParams;
@@ -87,36 +78,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
-        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
-        try {
-            SongKickApi.artistSearch().byName("Justin").execute().getResults().forEach(System.out::println);
-        } catch (ApiCallException | ApiErrorException e) {
-            // Handle error
-            System.out.println(new Gson().toJson(e));
-        }
-        SongKickApi.artistSearch().byName("Justin")
-                .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
-                    @Override
-                    public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
-//                        ArrayList<Object> eventos = new ArrayList(result.getResults().subList(0,35));
-                        System.out.println(new Gson().toJson(result.getResults()));
-                        System.out.println("Olaa");
-                        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragmentSearchRecyclerViewMain);
-//                                    EventoViewLargeGridAdapter2 adapter = new EventoViewLargeGridAdapter2(eventos,mContext);
-//                                    recyclerView.setAdapter(adapter);
-                    }
-                    public void onError(Error error, ApiCaller<ResultsPage<Artist>> apiCaller) {
-                        System.out.println(error.getCause());
-                        /* This method triggers you when API has been called but response contains an error */
-                        // Handle Api Error
-                    }
-                    @Override
-                    public void onFailure(ApiCallException e, ApiCaller<ResultsPage<Artist>> apiCaller) {
-                        /* This method triggers you when call to API cannot be established. E.g. no internet connection */
-                        // Handle Failure
-                        System.out.println(e.getCause());
-                    }
-                });
 
 
         getLocation(view);
@@ -151,7 +112,7 @@ public class HomeFragment extends Fragment {
                         public void onComplete(ResultsPage<Event> result, ApiCaller<ResultsPage<Event>> apiCaller) {
 
                             ArrayList<Object> eventos = new ArrayList(result.getResults());
-                            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewMain);
+                            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewUpcomingEvents);
 
                             EventoViewThinAdapter2 adapter = new EventoViewThinAdapter2(view.getContext(),eventos);
                             recyclerView.setAdapter(adapter);

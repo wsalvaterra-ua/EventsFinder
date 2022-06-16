@@ -4,20 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
-import com.ua.eventsfinder.Objetos.Evento;
-import com.ua.eventsfinder.Objetos.EventoArtista;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+import com.ua.eventsfinder.Adapters.EventoViewThinAdapter2;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
 
-public class eventActivity extends AppCompatActivity {
+import ru.blizzed.opensongkick.OpenSongKickContext;
+import ru.blizzed.opensongkick.models.Event;
 
+public class eventActivity extends AppCompatActivity {
+    private Event event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -25,32 +28,66 @@ public class eventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event);
 
         setSupportActionBar(findViewById(R.id.topBar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        getSupportActionBar().setDisplayShowHomeEnabled(false);
-        ImageView imageView = (ImageView) findViewById(R.id.imageEvent);
-        String url = "https://images.sk-static.com/images/media/profile_images/artists/9737774/huge_avatar";
-        Glide.with(this)
-                .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imageView);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMain);
-        ArrayList<EventoArtista> eventos= new ArrayList<>();
-        setEventos(eventos);
-        EventoViewThinAdapter adapter = new EventoViewThinAdapter(this,eventos);
+        Bundle extras = getIntent().getExtras();
+
+        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
+        System.out.println(extras.getString("event"));
+        if (extras != null)
+            this.event =new Gson().fromJson(extras.getString("event"), Event.class) ;
+        fillElements();
+
+
+    }
+    private  void fillElements(){
+        String titulo = (event.getDisplayName().lastIndexOf(" at ")>0) ?
+                event.getDisplayName().substring(0,event.getDisplayName()
+                        .lastIndexOf(" at ")):event.getDisplayName();
+        ((TextView) findViewById(R.id.textViewName)).setText(titulo);
+
+
+        String localizacao =(event.getDisplayName().lastIndexOf(" at ")
+                >0&&event.getDisplayName().lastIndexOf("(") >0)
+                ? event.getDisplayName().substring(
+                event.getDisplayName().lastIndexOf(" at ")+4,
+                event.getDisplayName().lastIndexOf("(")-1
+        ):(event.getLocation().getDisplayName() != null)
+                ?event.getLocation().getDisplayName():event.getLocation().getCity();
+        ((TextView) findViewById(R.id.textViewLocation)).setText(localizacao);
+
+        String data =(event.getDisplayName().lastIndexOf("(")>0)? event.getDisplayName().substring(
+                event.getDisplayName().lastIndexOf("(")+1,event.getDisplayName().length()-2)
+                :event.getStart().getDate();
+
+        ((TextView) findViewById(R.id.textViewDate)).setText(getString(R.string.touring_until,  data));
+        int idParaFoto =(int) ((event.getType() ==Event.Type.CONCERT )?
+                event.getPerformances().get(0).getArtist().getId():event.getId());
+        String tipodeEventoLink = ((event.getType() ==Event.Type.CONCERT )? "artists":"events");
+
+        String url = "https://images.sk-static.com/images/media/profile_images/"
+                +tipodeEventoLink+"/"+idParaFoto+"/huge_avatar";
+        Picasso.get()
+                .load(url).placeholder(R.drawable.default_event).error(R.drawable.default_event)
+                .into((ImageView)findViewById(R.id.imageView));
+
+        loadLineUpArtist(this);
+
+    }
+
+    private void  loadLineUpArtist(eventActivity context){
+        ArrayList<Object> artistas = new ArrayList<>();
+        for (Event.Performance performance:event.getPerformances())
+            artistas.add(performance.getArtist());
+
+        RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewUpcomingEvents);
+        EventoViewThinAdapter2 adapter = new EventoViewThinAdapter2(context,artistas);
         recyclerView.setAdapter(adapter);
-    }
-
-    private void  setEventos(ArrayList<EventoArtista> eventos){
-        String[] eventosTitulo = getResources().getStringArray(R.array.titulos);
-        String[] eventosData = getResources().getStringArray(R.array.datas);
-        String[] eventosLocalizacao = getResources().getStringArray(R.array.localizacoes);
-        for (int i =0 ;i<eventosData.length;i++)
-            eventos.add(new Evento(eventosTitulo[i] ,eventosData[i],eventosLocalizacao[i] ));
 
     }
 
-
+    public void goBack(View view) {
+        finish();
+    }
 }

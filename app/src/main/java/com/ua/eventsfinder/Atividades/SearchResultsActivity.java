@@ -1,27 +1,13 @@
 package com.ua.eventsfinder.Atividades;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.SearchView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter2;
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
-import com.ua.eventsfinder.Fragmentos.FollowingFragment;
-import com.ua.eventsfinder.Fragmentos.HomeFragment;
-import com.ua.eventsfinder.Fragmentos.SearchFragment;
-import com.ua.eventsfinder.Objetos.Evento;
-import com.ua.eventsfinder.Objetos.EventoArtista;
+import com.ua.eventsfinder.Adapters.EventoViewThinAdapter2;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
@@ -30,15 +16,18 @@ import ru.blizzed.opensongkick.ApiCaller;
 import ru.blizzed.opensongkick.SongKickApi;
 import ru.blizzed.opensongkick.models.Artist;
 import ru.blizzed.opensongkick.models.ResultsPage;
-import ru.blizzed.opensongkick.params.SongKickParams;
 
 public class SearchResultsActivity extends AppCompatActivity {
-private final SearchResultsActivity mContext;
+    private final SearchResultsActivity mContext;
+    private  EventoViewThinAdapter2 SearchResultsAdapter;
+    private ArrayList<Object> pesquisaLista;
 
     public SearchResultsActivity() {
         this.mContext = this;
-    }
+        this.pesquisaLista =  new ArrayList<>();
+        this.SearchResultsAdapter = new EventoViewThinAdapter2(this,pesquisaLista);
 
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -48,46 +37,10 @@ private final SearchResultsActivity mContext;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.searchBtn);
-
-        bottomNavigationView.setOnItemSelectedListener(item ->{
-            switch(item.getItemId()) {
-                case R.id.homeBtn:
-                    replaceFramework(new HomeFragment());
-                    break;
-                case R.id.searchBtn:
-                    replaceFramework(new SearchFragment());
-                    break;
-                case R.id.followingBtn:
-                    replaceFramework(new FollowingFragment());
-                    break;
-            }
-            return  true;
-        });
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewSearchHistory);
-        ArrayList<EventoArtista> eventos= new ArrayList<>();
-        setEventos(eventos);
-        EventoViewThinAdapter adapter = new EventoViewThinAdapter(this,eventos);
-        recyclerView.setAdapter(adapter);
-    }
 
-    private void  setEventos(ArrayList<EventoArtista> eventos){
-        String[] eventosTitulo = getResources().getStringArray(R.array.titulos);
-        String[] eventosData = getResources().getStringArray(R.array.datas);
-        String[] eventosLocalizacao = getResources().getStringArray(R.array.localizacoes);
-        for (int i =0 ;i<eventosData.length;i++)
-            eventos.add(new Evento(eventosTitulo[i] ,eventosData[i],eventosLocalizacao[i] ));
-
-    }
-
-    private void replaceFramework(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frameLayout, fragment);
-
-        transaction.commit();
+        recyclerView.setAdapter(SearchResultsAdapter);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,37 +52,33 @@ private final SearchResultsActivity mContext;
         searchView.setFocusable(true);
         searchView.setIconified(false);
         searchView.setQueryHint("Search Artists, Locations");
-
         searchView.requestFocusFromTouch();
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                System.out.println(newText);
 
 
                     SongKickApi.artistSearch().byName(newText)
                             .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
                                 @Override
                                 public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
-                                    ArrayList<Object> eventos = new ArrayList(result.getResults().subList(0,35));
-                                    RecyclerView recyclerView = (RecyclerView) mContext.findViewById(R.id.fragmentSearchRecyclerViewMain);
-                                    System.out.println(new Gson().toJson(eventos));
-//                                    EventoViewLargeGridAdapter2 adapter = new EventoViewLargeGridAdapter2(eventos,mContext);
-//                                    recyclerView.setAdapter(adapter);
+                                    mContext.pesquisaLista.clear();
+                                    mContext.pesquisaLista.addAll(new ArrayList(result.getResults()));
+                                    mContext.SearchResultsAdapter.notifyDataSetChanged();
                                 }
                             });
-
-
-
                 return false;
             }
 
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                if(query.equals("voltar"))
+                    finish();
                 return false;
             }
-
         });
         return true;
     }
