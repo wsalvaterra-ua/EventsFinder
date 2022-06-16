@@ -15,12 +15,15 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.ua.eventsfinder.Atividades.artistActivity;
 import com.ua.eventsfinder.Atividades.eventActivity;
+import com.ua.eventsfinder.Atividades.locationActivity;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
 
 import ru.blizzed.opensongkick.models.Artist;
 import ru.blizzed.opensongkick.models.Event;
+import ru.blizzed.opensongkick.models.Location;
+import ru.blizzed.opensongkick.models.MetroArea;
 
 public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinAdapter2.MyViewHolder> {
     private Context context;
@@ -47,19 +50,28 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
             handleEvent(holder,(Event) lista.get(position));
         else if(lista.get(position) instanceof  Artist)
             handleArtist(holder,(Artist) lista.get(position));
+        else if(lista.get(position) instanceof  Location)
+            handleLocation(holder,((Location) lista.get(position)).getMetroArea());
         holder.setObjetoAEnviar(lista.get(position),context);
 
     }
+    private void handleLocation(EventoViewThinAdapter2.MyViewHolder holder, MetroArea location){
+
+        holder.titulo.setText(location.getDisplayName());
+        holder.data.setText(location.getCountry().getDisplayName());
+        holder.localizacao.setText("");
+        holder.imageView.setMaxHeight(130);
+        Picasso.get()
+                .load(R.drawable.location_small).into(holder.imageView);
+
+    }
+
 
     private void  handleEvent(EventoViewThinAdapter2.MyViewHolder holder, Event evento){
         String full = evento.getDisplayName();
         String titulo = (full.lastIndexOf(" at ")>0) ?
                 full.substring(0,full.lastIndexOf(" at ")):evento.getDisplayName();
-        String localizacao =(full.lastIndexOf(" at ")>0&&full.lastIndexOf("(") >0)
-                ? full.substring(
-                full.lastIndexOf(" at ")+4,full.lastIndexOf("(")-1
-        )
-                :evento.getLocation().getDisplayName();
+        String localizacao =evento.getVenue().getDisplayName() + ", " + evento.getVenue().getMetroArea().getDisplayName();
         String data =(full.lastIndexOf("(")>0)? full.substring(
                 full.lastIndexOf("(")+1,full.length()-2)
                 :evento.getStart().getDate();
@@ -132,6 +144,10 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
             else if(objetoAEnviar instanceof  Artist) {
                 intent = new Intent(context,  artistActivity.class);
                 intent.putExtra("artist", (new Gson()).toJson(objetoAEnviar));
+            }
+            else if(objetoAEnviar instanceof  Location) {
+                intent = new Intent(context,  locationActivity.class);
+                intent.putExtra("location", (new Gson()).toJson(((Location) objetoAEnviar).getMetroArea()));
             }
             context.startActivity(intent);
         }

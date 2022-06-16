@@ -112,7 +112,7 @@ public class HomeFragment extends Fragment {
                         public void onComplete(ResultsPage<Event> result, ApiCaller<ResultsPage<Event>> apiCaller) {
 
                             ArrayList<Object> eventos = new ArrayList(result.getResults());
-                            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewUpcomingEvents);
+                            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewEventsNear);
 
                             EventoViewThinAdapter2 adapter = new EventoViewThinAdapter2(view.getContext(),eventos);
                             recyclerView.setAdapter(adapter);

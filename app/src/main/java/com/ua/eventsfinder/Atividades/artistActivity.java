@@ -15,7 +15,6 @@ import com.ua.eventsfinder.Adapters.EventoViewThinAdapter2;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import ru.blizzed.opensongkick.ApiCaller;
 import ru.blizzed.opensongkick.OpenSongKickContext;
@@ -30,8 +29,6 @@ public class artistActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
-        setSupportActionBar(findViewById(R.id.topBar));
-//        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Bundle extras = getIntent().getExtras();
 
         OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
@@ -63,7 +60,7 @@ public class artistActivity extends AppCompatActivity {
                     public void onComplete(ResultsPage<Event> result, ApiCaller<ResultsPage<Event>> apiCaller) {
 
                         ArrayList<Object> eventos = new ArrayList(result.getResults());
-                        RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewUpcomingEvents);
+                        RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewEventsNear);
 
                         EventoViewThinAdapter2 adapter = new EventoViewThinAdapter2(context,eventos);
                         recyclerView.setAdapter(adapter);

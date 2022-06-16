@@ -141,7 +141,7 @@
                         android:textSize="28sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewUpcomingEvents"
+                        android:id="@+id/recyclerViewEventsNear"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

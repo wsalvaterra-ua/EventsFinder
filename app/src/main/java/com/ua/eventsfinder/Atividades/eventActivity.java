@@ -34,10 +34,12 @@ public class eventActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
-        System.out.println(extras.getString("event"));
+//        System.out.println(extras.getString("event"));
         if (extras != null)
             this.event =new Gson().fromJson(extras.getString("event"), Event.class) ;
         fillElements();
+
+//        System.out.printf("%s \n vs \n %s \n \n" , new Gson().toJson(event.getVenue()),new Gson().toJson(event.getVenue().getMetroArea()));
 
 
     }
@@ -53,15 +55,16 @@ public class eventActivity extends AppCompatActivity {
                 ? event.getDisplayName().substring(
                 event.getDisplayName().lastIndexOf(" at ")+4,
                 event.getDisplayName().lastIndexOf("(")-1
-        ):(event.getLocation().getDisplayName() != null)
-                ?event.getLocation().getDisplayName():event.getLocation().getCity();
+        ):event.getVenue().getDisplayName()+", "+
+                event.getVenue().getMetroArea().getDisplayName()
+                +", " + event.getVenue().getMetroArea().getCountry().getDisplayName();
         ((TextView) findViewById(R.id.textViewLocation)).setText(localizacao);
 
         String data =(event.getDisplayName().lastIndexOf("(")>0)? event.getDisplayName().substring(
                 event.getDisplayName().lastIndexOf("(")+1,event.getDisplayName().length()-2)
                 :event.getStart().getDate();
 
-        ((TextView) findViewById(R.id.textViewDate)).setText(getString(R.string.touring_until,  data));
+        ((TextView) findViewById(R.id.textViewDate)).setText(getString(R.string.data_with_data,  data));
         int idParaFoto =(int) ((event.getType() ==Event.Type.CONCERT )?
                 event.getPerformances().get(0).getArtist().getId():event.getId());
         String tipodeEventoLink = ((event.getType() ==Event.Type.CONCERT )? "artists":"events");
@@ -81,7 +84,7 @@ public class eventActivity extends AppCompatActivity {
         for (Event.Performance performance:event.getPerformances())
             artistas.add(performance.getArtist());
 
-        RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewUpcomingEvents);
+        RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewEventsNear);
         EventoViewThinAdapter2 adapter = new EventoViewThinAdapter2(context,artistas);
         recyclerView.setAdapter(adapter);
 

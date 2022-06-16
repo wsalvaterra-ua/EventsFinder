@@ -17,7 +17,7 @@
         android:theme="@style/Theme.EventsFinder"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".locationActivity"
+            android:name=".Atividades.locationActivity"
             android:exported="false" />
         <activity
             android:name=".Atividades.artistActivity"

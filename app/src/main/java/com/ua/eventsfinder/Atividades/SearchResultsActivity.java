@@ -5,8 +5,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.SearchView;
 
+import com.google.gson.Gson;
 import com.ua.eventsfinder.Adapters.EventoViewThinAdapter2;
 import com.ua.eventsfinder.R;
 
@@ -15,18 +17,20 @@ import java.util.ArrayList;
 import ru.blizzed.opensongkick.ApiCaller;
 import ru.blizzed.opensongkick.SongKickApi;
 import ru.blizzed.opensongkick.models.Artist;
+import ru.blizzed.opensongkick.models.Location;
 import ru.blizzed.opensongkick.models.ResultsPage;
 
 public class SearchResultsActivity extends AppCompatActivity {
     private final SearchResultsActivity mContext;
     private  EventoViewThinAdapter2 SearchResultsAdapter;
     private ArrayList<Object> pesquisaLista;
+    private int selectionMode;
 
     public SearchResultsActivity() {
         this.mContext = this;
         this.pesquisaLista =  new ArrayList<>();
         this.SearchResultsAdapter = new EventoViewThinAdapter2(this,pesquisaLista);
-
+        this.selectionMode = 0;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +62,39 @@ public class SearchResultsActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                System.out.println(newText + "\n");
+                    switch (mContext.selectionMode){
+                        case  1:
+                            SongKickApi.locationSearch().byQuery(newText)
+                                    .execute(new ApiCaller.Listener<ResultsPage<Location>>() {
+                                        @Override
+                                        public void onComplete(ResultsPage<Location> result, ApiCaller<ResultsPage<Location>> apiCaller) {
+                                            System.out.println((new Gson()).toJson(result.getResults()));
+                                            mContext.pesquisaLista.clear();
+                                            mContext.pesquisaLista.addAll(new ArrayList<>(result.getResults()));
+                                            mContext.SearchResultsAdapter.notifyDataSetChanged();
+                                        }
+                                    });
+                        break;
+                        default:
+                            SongKickApi.artistSearch().byName(newText)
+                                    .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
+                                        @Override
+                                        public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
+                                            System.out.println((new Gson()).toJson(result.getResults()));
+
+                                            mContext.pesquisaLista.clear();
+                                            mContext.pesquisaLista.addAll(new ArrayList<>(result.getResults()));
+                                            mContext.SearchResultsAdapter.notifyDataSetChanged();
+                                        }
+                                    });
+                        break;
 
 
-                    SongKickApi.artistSearch().byName(newText)
-                            .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
-                                @Override
-                                public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
-                                    mContext.pesquisaLista.clear();
-                                    mContext.pesquisaLista.addAll(new ArrayList(result.getResults()));
-                                    mContext.SearchResultsAdapter.notifyDataSetChanged();
-                                }
-                            });
+
+
+                    }
+
                 return false;
             }
 
@@ -83,4 +109,14 @@ public class SearchResultsActivity extends AppCompatActivity {
         return true;
     }
 
+    public void searchByLocation(View view) {
+        System.out.println("By Location");
+        this.selectionMode = 1;
+
+    }
+
+    public void searchByArtists(View view) {
+        System.out.println("By Artist");
+        this.selectionMode = 0;
+    }
 }
