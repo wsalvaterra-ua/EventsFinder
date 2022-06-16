@@ -63,7 +63,6 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
         holder.imageView.setMaxHeight(130);
         Picasso.get()
                 .load(R.drawable.location_small).into(holder.imageView);
-
     }
 
 

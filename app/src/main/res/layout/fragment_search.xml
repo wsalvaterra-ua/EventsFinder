@@ -14,14 +14,14 @@
         <Button
             android:id="@+id/btnOpenSearchActivity"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="?android:attr/actionBarSize"
             android:background="@color/purple_200"
             android:text="Search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/frameLayoutRecentSearchs"
-            app:layout_constraintVertical_weight="1"
+
             tools:layout_height="wrap_content"
             />
 <FrameLayout

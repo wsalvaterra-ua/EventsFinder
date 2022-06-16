@@ -102,8 +102,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void getByloc(View view){
-
-
     Evento evento;
              SongKickApi.eventSearch()
                     .byLocation(SongKickParams.LOCATION_GEO.of(latitude, longitude))
@@ -112,11 +110,12 @@ public class HomeFragment extends Fragment {
                         public void onComplete(ResultsPage<Event> result, ApiCaller<ResultsPage<Event>> apiCaller) {
 
                             ArrayList<Object> eventos = new ArrayList(result.getResults());
-                            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewEventsNear);
+                            RecyclerView recyclerView =  view.findViewById(R.id.recyclerViewEventsNear);
 
                             EventoViewThinAdapter2 adapter = new EventoViewThinAdapter2(view.getContext(),eventos);
                             recyclerView.setAdapter(adapter);
-                        }
+
+                      }
                     });
     }
 }

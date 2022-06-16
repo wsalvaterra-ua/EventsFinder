@@ -76,6 +76,7 @@
                         android:checkable="true"
                         android:text="@string/follow"
                         android:textColor="@color/purple_700"
+                        android:onClick="followUnfollow"
                         app:checkedIcon="@drawable/ic_baseline_favorite_24"
                         app:checkedIconTint="#D52E2E"
                         app:chipBackgroundColor="@color/purple_200"

@@ -9,39 +9,38 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.ua.eventsfinder.Adapters.EventoViewThinAdapter2;
+import com.ua.eventsfinder.DataBase.Event.FavoriteEvent;
+import com.ua.eventsfinder.DataBase.Location.FavoriteLocation;
+import com.ua.eventsfinder.DataBase.MyRoomDatabase;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
 
 import ru.blizzed.opensongkick.OpenSongKickContext;
 import ru.blizzed.opensongkick.models.Event;
+import ru.blizzed.opensongkick.models.MetroArea;
 
 public class eventActivity extends AppCompatActivity {
     private Event event;
+    private MyRoomDatabase myRoomDatabase;
+    private FavoriteEvent favoriteEvent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        setSupportActionBar(findViewById(R.id.topBar));
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
         Bundle extras = getIntent().getExtras();
 
         OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
-//        System.out.println(extras.getString("event"));
+
         if (extras != null)
             this.event =new Gson().fromJson(extras.getString("event"), Event.class) ;
         fillElements();
-
-//        System.out.printf("%s \n vs \n %s \n \n" , new Gson().toJson(event.getVenue()),new Gson().toJson(event.getVenue().getMetroArea()));
-
-
     }
     private  void fillElements(){
         String titulo = (event.getDisplayName().lastIndexOf(" at ")>0) ?
@@ -77,6 +76,19 @@ public class eventActivity extends AppCompatActivity {
 
         loadLineUpArtist(this);
 
+        Chip chipFavorite = ((Chip) findViewById(R.id.chipFavorite));
+        this.myRoomDatabase = MyRoomDatabase.getDbInstance(this);
+        this.favoriteEvent = myRoomDatabase.favoriteEventDAO().findEventByID(event.getId());
+        if (favoriteEvent != null) {
+            chipFavorite.setChecked(favoriteEvent.isFollowing());
+            chipFavorite.setText((this.favoriteEvent.isFollowing())
+                    ? getString(R.string.following) : getString(R.string.follow));
+        } else {
+            this.favoriteEvent = new FavoriteEvent(event.getId(),
+                    (new Gson()).toJson(event));
+            myRoomDatabase.favoriteEventDAO().insertEvent(favoriteEvent);
+        }
+
     }
 
     private void  loadLineUpArtist(eventActivity context){
@@ -92,5 +104,13 @@ public class eventActivity extends AppCompatActivity {
 
     public void goBack(View view) {
         finish();
+    }
+    public void followUnfollow(View view) {
+        this.favoriteEvent.setFollowing(!this.favoriteEvent.isFollowing());
+
+        Chip chip = ((Chip) this.findViewById(R.id.chipFavorite));
+        chip.setChecked(this.favoriteEvent.isFollowing());
+        chip.setText((this.favoriteEvent.isFollowing()) ? getString(R.string.following) : getString(R.string.follow));
+        myRoomDatabase.favoriteEventDAO().updateFavoriteEvent(this.favoriteEvent);
     }
 }
