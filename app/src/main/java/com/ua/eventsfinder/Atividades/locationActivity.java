@@ -20,11 +20,13 @@ import ru.blizzed.opensongkick.ApiCaller;
 import ru.blizzed.opensongkick.OpenSongKickContext;
 import ru.blizzed.opensongkick.SongKickApi;
 import ru.blizzed.opensongkick.models.Event;
+import ru.blizzed.opensongkick.models.Location;
 import ru.blizzed.opensongkick.models.MetroArea;
 import ru.blizzed.opensongkick.models.ResultsPage;
 
 public class locationActivity extends AppCompatActivity {
-    private MetroArea location;
+    private MetroArea metroArea;
+    private Location location;
     String locationID;
     private MyRoomDatabase myRoomDatabase;
     private FavoriteLocation favoriteLocation;
@@ -35,31 +37,32 @@ public class locationActivity extends AppCompatActivity {
         OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
         Bundle extras = getIntent().getExtras();
          if (extras != null)
-            this.location =new Gson().fromJson(extras.getString("location"), MetroArea.class) ;
+            this.location =new Gson().fromJson(extras.getString("location"),Location.class) ;
+         metroArea = location.getMetroArea();
         fillElements();
-        locationID=String.valueOf(location.getId()); //location.getCountry().getDisplayName() + location.getDisplayName();
+        locationID=String.valueOf(metroArea.getId()); //location.getCountry().getDisplayName() + location.getDisplayName();
     }
     private  void fillElements(){
-        ((TextView) findViewById(R.id.textViewEventsHappeningIn)).setText(getString(R.string.events_near_city,location.getDisplayName()));
-        ((TextView) findViewById(R.id.textViewName)).setText(getString(R.string.metroarea_withData , location.getCountry().getDisplayName() , location.getDisplayName()));
+        ((TextView) findViewById(R.id.textViewEventsHappeningIn)).setText(getString(R.string.events_near_city, metroArea.getDisplayName()));
+        ((TextView) findViewById(R.id.textViewName)).setText(getString(R.string.metroarea_withData , metroArea.getCountry().getDisplayName() , metroArea.getDisplayName()));
         loadEventsNearLocation(this);
 
         Chip chipFavorite = ((Chip) findViewById(R.id.chipFavorite));
         this.myRoomDatabase = MyRoomDatabase.getDbInstance(this);
-        this.favoriteLocation = myRoomDatabase.favoriteLocationDAO().findLocationByID(location.getId());
+        this.favoriteLocation = myRoomDatabase.favoriteLocationDAO().findLocationByID(metroArea.getId());
         if (favoriteLocation != null) {
             chipFavorite.setChecked(favoriteLocation.isFollowing());
             chipFavorite.setText((this.favoriteLocation.isFollowing())
                     ? getString(R.string.following) : getString(R.string.follow));
         } else {
-            this.favoriteLocation = new FavoriteLocation(location.getId(),
+            this.favoriteLocation = new FavoriteLocation(metroArea.getId(),
                     (new Gson()).toJson(location));
             myRoomDatabase.favoriteLocationDAO().insertLocation(favoriteLocation);
         }
     }
     public void loadEventsNearLocation(locationActivity context){
 
-        SongKickApi.metroAreaCalendar().byId(String.valueOf(location.getId()))
+        SongKickApi.metroAreaCalendar().byId(String.valueOf(metroArea.getId()))
                 .execute(new ApiCaller.Listener<ResultsPage<Event>>() {
                     @Override
                     public void onComplete(ResultsPage<Event> result, ApiCaller<ResultsPage<Event>> apiCaller) {

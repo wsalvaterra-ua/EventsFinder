@@ -158,7 +158,7 @@ private String dateToHuman(String sdate){
             }
             else if(objetoAEnviar instanceof  Location) {
                 intent = new Intent(context,  locationActivity.class);
-                intent.putExtra("location", (new Gson()).toJson(((Location) objetoAEnviar).getMetroArea()));
+                intent.putExtra("location", (new Gson()).toJson(((Location) objetoAEnviar)));
             }
             context.startActivity(intent);
         }

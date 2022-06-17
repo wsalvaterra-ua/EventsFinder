@@ -65,22 +65,14 @@ public class eventActivity extends AppCompatActivity {
                         .lastIndexOf(" at ")):event.getDisplayName();
         ((TextView) findViewById(R.id.textViewName)).setText(titulo);
 
-        String localizacao =(event.getDisplayName().lastIndexOf(" at ")
-                >0&&event.getDisplayName().lastIndexOf("(") >0)
-                ? event.getDisplayName().substring(
-                event.getDisplayName().lastIndexOf(" at ")+4,
-                event.getDisplayName().lastIndexOf("(")-1
-        ):event.getVenue().getDisplayName()+", "+
-                event.getVenue().getMetroArea().getDisplayName()
-                +", " + event.getVenue().getMetroArea().getCountry().getDisplayName();
+        String localizacao =event.getVenue().getDisplayName() + ", " +
+                event.getVenue().getMetroArea().getDisplayName() + ", " +
+                event.getVenue().getMetroArea().getCountry().getDisplayName();
         ((TextView) findViewById(R.id.textViewLocation)).setText(localizacao);
 
-        String data =(event.getDisplayName().lastIndexOf("(")>0)? event.getDisplayName().substring(
-                event.getDisplayName().lastIndexOf("(")+1,event.getDisplayName().length()-2)
-                :event.getStart().getDate();
-
         ((TextView) findViewById(R.id.textViewDate)).
-                setText(getString(R.string.data_with_data, dateToHuman(data)));
+                setText(getString(R.string.data_with_data, dateToHuman(event.getStart().getDate()) +
+                        " - " + dateToHuman(event.getEnd().getDate())));
 
         int idParaFoto =(int) ((event.getType() ==Event.Type.CONCERT )?
                 event.getPerformances().get(0).getArtist().getId():event.getId());

@@ -16,6 +16,7 @@ public class Event extends BaseModel {
 
     private Type type;
     private Start start;
+    private End end;
     @SerializedName("performance")
     private List<Performance> performances;
     private SimpleLocation location;
@@ -29,6 +30,10 @@ public class Event extends BaseModel {
 
     public Start getStart() {
         return start;
+    }
+
+    public End getEnd() {
+        return end;
     }
 
     public List<Performance> getPerformances() {
@@ -52,6 +57,24 @@ public class Event extends BaseModel {
     }
 
     public static class Start {
+        private String time;
+        private String date;
+        @SerializedName("datetime")
+        private String dateTime;
+
+        public String getTime() {
+            return time;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public String getDateTime() {
+            return dateTime;
+        }
+    }
+    public static class End {
         private String time;
         private String date;
         @SerializedName("datetime")
