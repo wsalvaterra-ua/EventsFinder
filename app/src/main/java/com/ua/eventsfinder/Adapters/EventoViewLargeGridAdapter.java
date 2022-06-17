@@ -17,16 +17,19 @@ import com.ua.eventsfinder.Atividades.artistActivity;
 import com.ua.eventsfinder.Atividades.eventActivity;
 import com.ua.eventsfinder.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import ru.blizzed.opensongkick.models.Artist;
 import ru.blizzed.opensongkick.models.Event;
 
-public class EventoViewLargeGridAdapter2 extends RecyclerView.Adapter<EventoViewLargeGridAdapter2.MyViewHolder> {
+public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewLargeGridAdapter.MyViewHolder> {
     private final ArrayList<Object> lista;
     Context context;
 
-    public EventoViewLargeGridAdapter2(ArrayList<Object> lista, Context context) {
+    public EventoViewLargeGridAdapter(ArrayList<Object> lista, Context context) {
         this.lista = lista;
         this.context = context;
     }
@@ -36,7 +39,7 @@ public class EventoViewLargeGridAdapter2 extends RecyclerView.Adapter<EventoView
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         View view =  LayoutInflater.from(context).inflate(R.layout.frame_recyclerview_eventoslarge,parent,false);
-        return new EventoViewLargeGridAdapter2.MyViewHolder(view);
+        return new EventoViewLargeGridAdapter.MyViewHolder(view);
     }
 
     @Override
@@ -49,18 +52,15 @@ public class EventoViewLargeGridAdapter2 extends RecyclerView.Adapter<EventoView
         holder.setObjetoAEnviar(lista.get(position),context);
     }
 
-    private void  handleEvent(EventoViewLargeGridAdapter2.MyViewHolder holder, Event evento){
+    private void  handleEvent(EventoViewLargeGridAdapter.MyViewHolder holder, Event evento){
 
         String full = evento.getDisplayName();
 
         String titulo = (full.lastIndexOf(" at ")>0) ?
                 full.substring(0,full.lastIndexOf(" at ")):evento.getDisplayName();
 
-        String data =(full.lastIndexOf("(")>0)? full.substring(
-                full.lastIndexOf("(")+1,full.length()-1)
-                :evento.getStart().getDate();
         holder.titulo.setText(titulo);
-        holder.data.setText( data);
+        holder.data.setText( dateToHuman(evento.getStart().getDate()));
 
         int idParaFoto =(int) ((evento.getType() ==Event.Type.CONCERT )?
                 evento.getPerformances().get(0).getArtist().getId():evento.getId());
@@ -72,14 +72,25 @@ public class EventoViewLargeGridAdapter2 extends RecyclerView.Adapter<EventoView
                 .load(url).placeholder(R.drawable.default_event).error(R.drawable.default_event)
                 .into(holder.imageView);
     }
-    private void  handleArtist(EventoViewLargeGridAdapter2.MyViewHolder holder, Artist artist){
+    private void  handleArtist(EventoViewLargeGridAdapter.MyViewHolder holder, Artist artist){
         holder.titulo.setText(artist.getDisplayName());
-        holder.data.setText((artist.getOnTourUntil() !=null) ? "Touring until: " + artist.getOnTourUntil():"Not touring");
+        holder.data.setText((artist.getOnTourUntil() !=null) ? "Touring until: " +dateToHuman(artist.getOnTourUntil()):"Not touring");
 
         String url = "https://images.sk-static.com/images/media/profile_images/artists/"+artist.getId()+"/huge_avatar";
         Picasso.get()
                 .load(url).placeholder(R.drawable.default_event).error(R.drawable.default_event)
                 .into(holder.imageView);
+
+    }
+    private String dateToHuman(String sdate){
+        Date date_;
+        try {
+            date_ = new SimpleDateFormat("yyyy-MM-dd").parse(sdate);
+        } catch (ParseException e) {
+            return  sdate;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, yyyy");
+        return  simpleDateFormat.format(date_);
 
     }
 

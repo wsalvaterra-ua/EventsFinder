@@ -12,18 +12,21 @@ import com.ua.eventsfinder.DataBase.Event.FavoriteEvent;
 import com.ua.eventsfinder.DataBase.Event.FavoriteEventDAO;
 import com.ua.eventsfinder.DataBase.Location.FavoriteLocation;
 import com.ua.eventsfinder.DataBase.Location.FavoriteLocationDAO;
+import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
+import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistoryDAO;
 
-@Database(entities = {FavoriteEvent.class, FavoriteLocation.class, FavoriteArtist.class}, version = 1, exportSchema = false)
+@Database(entities = {FavoriteEvent.class, FavoriteLocation.class, FavoriteArtist.class, SearchHistory.class}, version = 1, exportSchema = false)
 public abstract class MyRoomDatabase extends RoomDatabase {
     public abstract FavoriteArtistDAO favoriteArtistDAO();
     public abstract FavoriteLocationDAO favoriteLocationDAO();
     public abstract FavoriteEventDAO favoriteEventDAO();
+    public abstract SearchHistoryDAO searchHistoryDAO();
 
     private static MyRoomDatabase INSTANCE;
     public static MyRoomDatabase getDbInstance(Context context) {
 
         if(INSTANCE == null) {
-            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MyRoomDatabase.class, "DB_NAME")
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MyRoomDatabase.class, "DB_NAME2")
                     .allowMainThreadQueries()
                     .build();
 

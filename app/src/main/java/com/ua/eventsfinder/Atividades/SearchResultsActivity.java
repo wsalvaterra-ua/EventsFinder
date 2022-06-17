@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.SearchView;
 
-import com.google.gson.Gson;
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter2;
+import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
@@ -22,14 +20,14 @@ import ru.blizzed.opensongkick.models.ResultsPage;
 
 public class SearchResultsActivity extends AppCompatActivity {
     private final SearchResultsActivity mContext;
-    private  EventoViewThinAdapter2 SearchResultsAdapter;
+    private EventoViewThinAdapter SearchResultsAdapter;
     private ArrayList<Object> pesquisaLista;
     private int selectionMode;
 
     public SearchResultsActivity() {
         this.mContext = this;
         this.pesquisaLista =  new ArrayList<>();
-        this.SearchResultsAdapter = new EventoViewThinAdapter2(this,pesquisaLista);
+        this.SearchResultsAdapter = new EventoViewThinAdapter(this,pesquisaLista);
         this.selectionMode = 0;
     }
     @Override

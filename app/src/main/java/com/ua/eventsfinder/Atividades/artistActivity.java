@@ -11,13 +11,19 @@ import android.widget.TextView;
 import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter2;
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter2;
+import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter;
+import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
 import com.ua.eventsfinder.DataBase.Artist.FavoriteArtist;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
+import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
 import com.ua.eventsfinder.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import ru.blizzed.opensongkick.ApiCaller;
 import ru.blizzed.opensongkick.OpenSongKickContext;
@@ -42,15 +48,27 @@ public class artistActivity extends AppCompatActivity {
         if (extras != null)
             this.artist = new Gson().fromJson(extras.getString("artist"), Artist.class);
         fillElements();
-
+        addToHistory();
     }
+    private void addToHistory(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
+        LocalDateTime now = LocalDateTime.now();
+        SearchHistory searchHistory = myRoomDatabase.searchHistoryDAO().findSearchHistoricByID(artist.getId());
+        SearchHistory searchHistory1 = new SearchHistory(artist.getId(),
+                (new Gson()).toJson(artist),dtf.format(now),"artist");
+        if(searchHistory == null)
+            myRoomDatabase.searchHistoryDAO().insertSearchHistoric(searchHistory1);
+        else
+            myRoomDatabase.searchHistoryDAO().updateSearchHistoric(searchHistory1);
+    }
     private void fillElements() {
 
 
         ((TextView) findViewById(R.id.textViewName)).setText(artist.getDisplayName());
 
-        ((TextView) findViewById(R.id.textViewDate)).setText("Touring Until: " + artist.getOnTourUntil());
+        ((TextView) findViewById(R.id.textViewDate)).setText((artist.getOnTourUntil() !=null)
+                ? this.getString(R.string.touring_until,dateToHuman(artist.getOnTourUntil())):"Not touring");
         String url = "https://images.sk-static.com/images/media/profile_images/artists/"
                 + artist.getId() + "/huge_avatar";
         Picasso.get()
@@ -71,7 +89,6 @@ public class artistActivity extends AppCompatActivity {
                     (new Gson()).toJson(artist));
             myRoomDatabase.favoriteArtistDAO().insertArtist(favoriteArtist);
         }
-
     }
 
 
@@ -85,12 +102,22 @@ public class artistActivity extends AppCompatActivity {
                         ArrayList<Object> eventos = new ArrayList(result.getResults());
                         RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewEventsNear);
 
-                        EventoViewThinAdapter2 adapter = new EventoViewThinAdapter2(context, eventos);
+                        EventoViewThinAdapter adapter = new EventoViewThinAdapter(context, eventos);
                         recyclerView.setAdapter(adapter);
                     }
                 });
     }
+    private String dateToHuman(String sdate){
+        Date date_;
+        try {
+            date_ = new SimpleDateFormat("yyyy-MM-dd").parse(sdate);
+        } catch (ParseException e) {
+            return  sdate;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, yyyy");
+        return  simpleDateFormat.format(date_);
 
+    }
     public void loadSimiliarArtists(artistActivity context) {
 
         SongKickApi.similarArtists(String.valueOf(artist.getId()))
@@ -100,7 +127,7 @@ public class artistActivity extends AppCompatActivity {
                         ArrayList<Object> eventos = new ArrayList(result.getResults());
                         RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewSimiliar);
 
-                        EventoViewLargeGridAdapter2 adapter = new EventoViewLargeGridAdapter2(eventos, context);
+                        EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos, context);
                         recyclerView.setAdapter(adapter);
                     }
                 });

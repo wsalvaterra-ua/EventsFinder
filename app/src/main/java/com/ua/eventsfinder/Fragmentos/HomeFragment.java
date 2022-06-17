@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter2;
+import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
 import com.ua.eventsfinder.Objetos.Evento;
 import com.ua.eventsfinder.Objetos.GpsTracker;
 import com.ua.eventsfinder.R;
@@ -112,7 +112,7 @@ public class HomeFragment extends Fragment {
                             ArrayList<Object> eventos = new ArrayList(result.getResults());
                             RecyclerView recyclerView =  view.findViewById(R.id.recyclerViewEventsNear);
 
-                            EventoViewThinAdapter2 adapter = new EventoViewThinAdapter2(view.getContext(),eventos);
+                            EventoViewThinAdapter adapter = new EventoViewThinAdapter(view.getContext(),eventos);
                             recyclerView.setAdapter(adapter);
 
                       }

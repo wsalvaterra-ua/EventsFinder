@@ -18,18 +18,21 @@ import com.ua.eventsfinder.Atividades.eventActivity;
 import com.ua.eventsfinder.Atividades.locationActivity;
 import com.ua.eventsfinder.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import ru.blizzed.opensongkick.models.Artist;
 import ru.blizzed.opensongkick.models.Event;
 import ru.blizzed.opensongkick.models.Location;
 import ru.blizzed.opensongkick.models.MetroArea;
 
-public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinAdapter2.MyViewHolder> {
+public class EventoViewThinAdapter extends RecyclerView.Adapter<EventoViewThinAdapter.MyViewHolder> {
     private Context context;
     private final ArrayList<Object> lista;
 
-    public EventoViewThinAdapter2(Context context, ArrayList<Object> lista_) {
+    public EventoViewThinAdapter(Context context, ArrayList<Object> lista_) {
         this.context = context;
         this.lista = lista_;
     }
@@ -41,7 +44,7 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate((R.layout.frame_evento_thin),parent,false);
-        return new EventoViewThinAdapter2.MyViewHolder(view);
+        return new EventoViewThinAdapter.MyViewHolder(view);
     }
 
     @Override
@@ -55,7 +58,7 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
         holder.setObjetoAEnviar(lista.get(position),context);
 
     }
-    private void handleLocation(EventoViewThinAdapter2.MyViewHolder holder, MetroArea location){
+    private void handleLocation(EventoViewThinAdapter.MyViewHolder holder, MetroArea location){
 
         holder.titulo.setText(location.getDisplayName());
         holder.data.setText(location.getCountry().getDisplayName());
@@ -66,14 +69,12 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
     }
 
 
-    private void  handleEvent(EventoViewThinAdapter2.MyViewHolder holder, Event evento){
+    private void  handleEvent(EventoViewThinAdapter.MyViewHolder holder, Event evento){
         String full = evento.getDisplayName();
         String titulo = (full.lastIndexOf(" at ")>0) ?
                 full.substring(0,full.lastIndexOf(" at ")):evento.getDisplayName();
         String localizacao =evento.getVenue().getDisplayName() + ", " + evento.getVenue().getMetroArea().getDisplayName();
-        String data =(full.lastIndexOf("(")>0)? full.substring(
-                full.lastIndexOf("(")+1,full.length()-2)
-                :evento.getStart().getDate();
+        String data =dateToHuman(evento.getStart().getDate());
         holder.titulo.setText(titulo);
         holder.data.setText( data);
 
@@ -92,8 +93,9 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
     }
 
     private void  handleArtist(MyViewHolder holder, Artist artist){
+
         holder.titulo.setText(artist.getDisplayName());
-        holder.data.setText((artist.getOnTourUntil() !=null) ? "Touring until: " + artist.getOnTourUntil():"Not touring");
+        holder.data.setText((artist.getOnTourUntil() !=null) ?  "Touring until: " + dateToHuman(artist.getOnTourUntil()):"Not touring");
         holder.localizacao.setText( "");
         String url = "https://images.sk-static.com/images/media/profile_images/artists/"+artist.getId()+"/huge_avatar";
         Picasso.get()
@@ -102,7 +104,17 @@ public class EventoViewThinAdapter2 extends RecyclerView.Adapter<EventoViewThinA
 
     }
 
+private String dateToHuman(String sdate){
+    Date date_;
+    try {
+        date_ = new SimpleDateFormat("yyyy-MM-dd").parse(sdate);
+    } catch (ParseException e) {
+        return  sdate;
+    }
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, yyyy");
+    return  simpleDateFormat.format(date_);
 
+}
 
     @Override
     public int getItemCount() {

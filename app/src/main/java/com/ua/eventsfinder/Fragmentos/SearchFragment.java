@@ -11,8 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter2;
+import com.google.gson.Gson;
+import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter;
 import com.ua.eventsfinder.Atividades.SearchResultsActivity;
+import com.ua.eventsfinder.DataBase.Artist.FavoriteArtist;
+import com.ua.eventsfinder.DataBase.MyRoomDatabase;
+import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
+import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistoryDAO;
+import com.ua.eventsfinder.Objetos.Evento;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
@@ -21,6 +27,7 @@ import ru.blizzed.opensongkick.ApiCaller;
 import ru.blizzed.opensongkick.OpenSongKickContext;
 import ru.blizzed.opensongkick.SongKickApi;
 import ru.blizzed.opensongkick.models.Artist;
+import ru.blizzed.opensongkick.models.Event;
 import ru.blizzed.opensongkick.models.ResultsPage;
 
 /**
@@ -38,7 +45,7 @@ public class SearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private MyRoomDatabase myRoomDatabase;
     public SearchFragment() {
         OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
         // Required empty public constructor
@@ -83,44 +90,46 @@ public class SearchFragment extends Fragment {
                 Intent intent = new Intent(view.getContext(), SearchResultsActivity.class);
                 view.getContext().startActivity(intent);}
         });
-        loadRecentSearchesIntoView(view);
+        myRoomDatabase =  MyRoomDatabase.getDbInstance(view.getContext());
+
         loadSimiliarArtistIntoView(view);
         return  view;
     }
 
 
     public void loadSimiliarArtistIntoView(View view){
-
-        SongKickApi.similarArtists("2596951")
+            long id =loadRecentSearchesIntoView(view);
+            if(id == 0){
+                id = 2596951;
+            }
+        SongKickApi.similarArtists(String.valueOf(id))
                 .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
                     @Override
                     public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
                         ArrayList<Object> eventos = new ArrayList(result.getResults().subList(0,35));
                         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragmentSearchRecyclerViewMain);
 
-                        EventoViewLargeGridAdapter2 adapter = new EventoViewLargeGridAdapter2(eventos,view.getContext());
+                        EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
                         recyclerView.setAdapter(adapter);
                     }
                 });
     }
-    private  void  loadRecentSearchesIntoView(View view){
-
-
-
-        SongKickApi.similarArtists("99074")
-                .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
-                    @Override
-                    public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
-                        ArrayList<Object> eventos = new ArrayList(result.getResults().subList(0,35));
-                        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragmentSearchRecyclerViewMain);
-
-                        EventoViewLargeGridAdapter2 eventoViewLargeGridAdapter = new EventoViewLargeGridAdapter2(eventos,view.getContext());
-
-                        ((RecyclerView)view.findViewById(R.id.recyclerViewSearchHistory)).setAdapter(eventoViewLargeGridAdapter);
-                    }
-                });
-
-
+    private long loadRecentSearchesIntoView(View view){
+        long id =0;
+        ArrayList<SearchHistory> objetos = new ArrayList(myRoomDatabase.searchHistoryDAO().getAll());
+        ArrayList<Object> historicos = new ArrayList<>();
+        for (SearchHistory searchHistory: objetos) {
+            if(searchHistory.getObjetoType().equals("artist")) {
+                historicos.add((new Gson()).fromJson(searchHistory.getObjeto(), Artist.class));
+                if(id ==0)
+                    id= searchHistory.getId();
+            }
+            else if(searchHistory.getObjetoType().equals("event"))
+                historicos.add((new Gson()).fromJson(searchHistory.getObjeto(), Event.class));
+        }
+        EventoViewLargeGridAdapter eventoViewLargeGridAdapter = new EventoViewLargeGridAdapter(historicos,view.getContext());
+        ((RecyclerView)view.findViewById(R.id.recyclerViewSearchHistory)).setAdapter(eventoViewLargeGridAdapter);
+        return id;
     }
 
 
