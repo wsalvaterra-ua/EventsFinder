@@ -14,11 +14,8 @@ import android.widget.Button;
 import com.google.gson.Gson;
 import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter;
 import com.ua.eventsfinder.Atividades.SearchResultsActivity;
-import com.ua.eventsfinder.DataBase.Artist.FavoriteArtist;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
 import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
-import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistoryDAO;
-import com.ua.eventsfinder.Objetos.Evento;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;

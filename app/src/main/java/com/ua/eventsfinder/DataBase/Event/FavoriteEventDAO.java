@@ -8,7 +8,7 @@ import java.util.List;
 
 @Dao
 public interface FavoriteEventDAO {
-    @Query("SELECT * FROM FavoriteEvent")
+    @Query("SELECT * FROM FavoriteEvent  WHERE following = 1")
     List<FavoriteEvent> getAll();
 
     @Query("SELECT * FROM FavoriteEvent WHERE eventID = :eventID LIMIT 1")

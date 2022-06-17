@@ -89,7 +89,7 @@ public class FollowingFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewMain);
         this.eventoViewThinAdapter = new EventoViewThinAdapter(view.getContext(), objectArrayList);
         recyclerView.setAdapter(eventoViewThinAdapter);
-        loadFavoriteArtist(view);
+        loadFavoriteEvent(view);
         FollowingFragment me = this;
         view.findViewById(R.id.chipArtist).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,14 +123,12 @@ public class FollowingFragment extends Fragment {
 
         this.objectArrayList.clear();
         this.objectArrayList.addAll(loadedLocations);
-        System.out.println(gson.toJson(loadedLocations));
         this.eventoViewThinAdapter.notifyDataSetChanged();
     }
     public void loadFavoriteEvent(View view){
         ArrayList<Object> loadedEvents = new ArrayList<>();
         Gson gson  = new Gson();
         ArrayList<FavoriteEvent> favoriteEventArrayList = new ArrayList<>(myRoomDatabase.favoriteEventDAO().getAll());
-
         for (FavoriteEvent favoriteEvent:favoriteEventArrayList)
             loadedEvents.add(gson.fromJson(favoriteEvent.getEvent(), Event.class));
 
@@ -140,6 +138,7 @@ public class FollowingFragment extends Fragment {
     }
 
     public void loadFavoriteArtist(View view){
+
         ArrayList<Object> loadedArtists = new ArrayList<>();
         Gson gson  = new Gson();
         ArrayList<FavoriteArtist> favoriteArtistArrayList = new ArrayList<>(myRoomDatabase.favoriteArtistDAO().getAll());

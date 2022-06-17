@@ -5,27 +5,27 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#6E1B1B"
     tools:context=".Fragmentos.FollowingFragment">
+
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/recyclerViewMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/recyclerViewMain"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:singleLine="true"
         app:selectionRequired="true"
+        app:singleLine="true"
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipEvent"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
-            android:onClick="loadFavoriteEvent"
             android:layout_height="wrap_content"
             android:checked="true"
+            android:onClick="loadFavoriteEvent"
             android:text="@string/event" />
 
         <com.google.android.material.chip.Chip
@@ -39,9 +39,9 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/chipLocation"
             style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:onClick="loadFavoriteLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="loadFavoriteLocation"
             android:text="@string/location" />
 
 
@@ -53,9 +53,9 @@
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chip_group"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chip_group" />
     <!-- TODO: Update blank fragment layout -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

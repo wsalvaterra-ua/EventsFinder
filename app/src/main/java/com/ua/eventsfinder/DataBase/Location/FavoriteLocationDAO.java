@@ -12,7 +12,7 @@ import java.util.List;
 
 @Dao
 public interface FavoriteLocationDAO {
-    @Query("SELECT * FROM FavoriteLocation")
+    @Query("SELECT * FROM FavoriteLocation  WHERE following = 1")
     List<FavoriteLocation> getAll();
 
     @Query("SELECT * FROM FavoriteLocation WHERE  locationID = :locationID LIMIT 1")

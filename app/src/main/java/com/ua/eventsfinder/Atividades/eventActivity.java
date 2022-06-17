@@ -3,7 +3,9 @@ package com.ua.eventsfinder.Atividades;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,10 +22,13 @@ import com.ua.eventsfinder.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import ru.blizzed.opensongkick.OpenSongKickContext;
 import ru.blizzed.opensongkick.models.Event;
@@ -118,7 +123,7 @@ public class eventActivity extends AppCompatActivity {
         } catch (ParseException e) {
             return  sdate;
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.getDefault());
         return  simpleDateFormat.format(date_);
 
     }
@@ -127,10 +132,44 @@ public class eventActivity extends AppCompatActivity {
     }
     public void followUnfollow(View view) {
         this.favoriteEvent.setFollowing(!this.favoriteEvent.isFollowing());
-
         Chip chip = ((Chip) this.findViewById(R.id.chipFavorite));
         chip.setChecked(this.favoriteEvent.isFollowing());
         chip.setText((this.favoriteEvent.isFollowing()) ? getString(R.string.following) : getString(R.string.follow));
         myRoomDatabase.favoriteEventDAO().updateFavoriteEvent(this.favoriteEvent);
     }
+
+    public void openCalendar(View view) {
+        LocalDate date1;
+        LocalDate date2;
+            date1 = LocalDate.parse(event.getStart().getDate());
+            if(event.getEnd() != null)
+                date2 = LocalDate.parse(event.getEnd().getDate());
+            else
+                date2 = date1;
+
+        String localizacao =event.getVenue().getDisplayName() + ", " +
+                event.getVenue().getMetroArea().getDisplayName() + ", " +
+                event.getVenue().getMetroArea().getCountry().getDisplayName();
+        ((TextView) findViewById(R.id.textViewLocation)).setText(localizacao);
+
+        Calendar beginTime = Calendar.getInstance();
+        beginTime.set(date1.getYear(), date1.getMonth().getValue(), date1.getDayOfMonth(), 0, 0);
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(date2.getYear(), date2.getMonth().getValue(), date2.getDayOfMonth(), 0, 0);
+
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                        beginTime.getTimeInMillis())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                        endTime.getTimeInMillis())
+                .putExtra(CalendarContract.Events.TITLE, event.getDisplayName())
+                .putExtra(CalendarContract.Events.DESCRIPTION, event.getDisplayName() + "\n" + event.getUri())
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, localizacao)
+                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+
+        startActivity(intent);
+
+    }
+
 }

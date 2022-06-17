@@ -20,7 +20,7 @@ public class FavoriteLocation
     public FavoriteLocation(float locationID, String location) {
         this.locationID = locationID;
         this.location = location;
-        this.following = true;
+        this.following = false;
     }
 
     public float getLocationID() {

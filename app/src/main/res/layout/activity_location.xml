@@ -58,12 +58,12 @@
 
                     <TextView
                         android:id="@+id/textViewName"
+                        style="@style/TextAppearance.MaterialComponents.Headline3"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
 
+                        android:layout_height="wrap_content"
                         android:text="@string/loading"
                         android:textColor="#FAFAFA"
-                        android:textSize="34sp"
                         app:layout_constraintBottom_toTopOf="@id/chipFavorite"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -72,14 +72,11 @@
                         android:id="@+id/chipFavorite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:buttonTint="#1D3981"
                         android:checkable="true"
                         android:text="@string/follow"
-                        android:textColor="@color/purple_700"
                         android:onClick="followUnfollow"
                         app:checkedIcon="@drawable/ic_baseline_favorite_24"
                         app:checkedIconTint="#D52E2E"
-                        app:chipBackgroundColor="@color/purple_200"
                         app:chipIcon="@drawable/ic_outline_favorite_border_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -111,11 +108,11 @@
 
                     <TextView
                         android:id="@+id/textViewEventsHappeningIn"
+                        style="@style/TextAppearance.MaterialComponents.Headline4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
-                        android:text="@string/events_near_city"
-                        android:textSize="28sp" />
+                        android:text="@string/events_near_city" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewEventsNear"

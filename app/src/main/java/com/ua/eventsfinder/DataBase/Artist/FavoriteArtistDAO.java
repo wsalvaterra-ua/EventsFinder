@@ -11,7 +11,7 @@ import java.util.List;
 
 @Dao
 public interface FavoriteArtistDAO {
-    @Query("SELECT * FROM FavoriteArtist")
+    @Query("SELECT * FROM FavoriteArtist WHERE following = 1")
     List<FavoriteArtist> getAll();
 
     @Query("SELECT * FROM FavoriteArtist WHERE  artistID = :artistID LIMIT 1")

@@ -22,6 +22,7 @@ public class FavoriteEvent {
         this.following = false;
     }
 
+
     public String getEvent() {
         return event;
     }

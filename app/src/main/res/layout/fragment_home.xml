@@ -38,6 +38,7 @@
 
                 <TextView
                     android:id="@+id/textViewEventsNearMe"
+                    style="@style/TextAppearance.MaterialComponents.Headline5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/loading" />
@@ -51,6 +52,7 @@
 
                 <TextView
                     android:id="@+id/textViewEventsHappeningIn"
+                    style="@style/TextAppearance.MaterialComponents.Headline5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/loading" />
@@ -64,6 +66,7 @@
 
                 <TextView
                     android:id="@+id/textViewSimiliarArtists"
+                    style="@style/TextAppearance.MaterialComponents.Headline5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/loading" />
@@ -74,8 +77,10 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
                 <TextView
                     android:id="@+id/textViewSimiliarArtistsToRecentSearch"
+                    style="@style/TextAppearance.MaterialComponents.Headline5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/loading" />
