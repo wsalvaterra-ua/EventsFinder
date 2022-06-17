@@ -63,4 +63,9 @@ public class FollowingFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_following, container, false);
     }
+
+    private void loadFavoriteLocation(){
+
+
+    }
 }

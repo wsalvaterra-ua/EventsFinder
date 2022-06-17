@@ -11,7 +11,7 @@ public interface FavoriteEventDAO {
     @Query("SELECT * FROM FavoriteEvent")
     List<FavoriteEvent> getAll();
 
-    @Query("SELECT * FROM FavoriteEvent WHERE  eventID = :eventID LIMIT 1")
+    @Query("SELECT * FROM FavoriteEvent WHERE eventID = :eventID LIMIT 1")
     FavoriteEvent findEventByID(long eventID);
 
     @Insert
@@ -19,7 +19,7 @@ public interface FavoriteEventDAO {
 
     @Update
     void updateFavoriteEvent(FavoriteEvent favoriteEvent);
-    
+
     @Delete
     void delete(FavoriteEvent favoriteEvent);
 }

@@ -66,7 +66,7 @@ public class artistActivity extends AppCompatActivity {
 
 
         ((TextView) findViewById(R.id.textViewName)).setText(artist.getDisplayName());
-
+        System.out.println(artist.getOnTourUntil());
         ((TextView) findViewById(R.id.textViewDate)).setText((artist.getOnTourUntil() !=null)
                 ? this.getString(R.string.touring_until,dateToHuman(artist.getOnTourUntil())):"Not touring");
         String url = "https://images.sk-static.com/images/media/profile_images/artists/"

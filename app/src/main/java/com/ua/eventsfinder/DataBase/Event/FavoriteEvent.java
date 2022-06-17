@@ -8,7 +8,7 @@ import ru.blizzed.opensongkick.models.Event;
 public class FavoriteEvent {
 
     @PrimaryKey
-    private float eventID;
+    private long eventID;
 
     @ColumnInfo()
     private String event;
@@ -16,10 +16,10 @@ public class FavoriteEvent {
     @ColumnInfo()
     private boolean following;
 
-    public FavoriteEvent(float eventID, String event) {
+    public FavoriteEvent(long eventID, String event) {
         this.eventID = eventID;
         this.event = event;
-        this.following = true;
+        this.following = false;
     }
 
     public String getEvent() {
@@ -30,11 +30,11 @@ public class FavoriteEvent {
         this.event = event;
     }
 
-    public float getEventID() {
+    public long getEventID() {
         return eventID;
     }
 
-    public void setEventID(float eventID) {
+    public void setEventID(long eventID) {
         this.eventID = eventID;
     }
 

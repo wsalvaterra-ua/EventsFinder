@@ -106,7 +106,7 @@ public class SearchFragment extends Fragment {
                 .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
                     @Override
                     public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
-                        ArrayList<Object> eventos = new ArrayList(result.getResults().subList(0,35));
+                        ArrayList<Object> eventos = new ArrayList(result.getResults());
                         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragmentSearchRecyclerViewMain);
 
                         EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
