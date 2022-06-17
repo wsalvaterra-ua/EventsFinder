@@ -10,14 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
 import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
+import com.ua.eventsfinder.DataBase.Artist.FavoriteArtist;
+import com.ua.eventsfinder.DataBase.Event.FavoriteEvent;
 import com.ua.eventsfinder.DataBase.Location.FavoriteLocation;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
 
+import ru.blizzed.opensongkick.models.Artist;
+import ru.blizzed.opensongkick.models.Event;
 import ru.blizzed.opensongkick.models.Location;
 import ru.blizzed.opensongkick.models.MetroArea;
 
@@ -85,21 +90,70 @@ public class FollowingFragment extends Fragment {
         this.eventoViewThinAdapter = new EventoViewThinAdapter(view.getContext(), objectArrayList);
         recyclerView.setAdapter(eventoViewThinAdapter);
         loadFavoriteLocation(view);
+        FollowingFragment me = this;
+        view.findViewById(R.id.chipArtist).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            me.loadFavoriteArtist(view);
+            }
+        });
+        view.findViewById(R.id.chipEvent).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            me.loadFavoriteEvent(view);
+            }
+        });
+        view.findViewById(R.id.chipLocation).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            me.loadFavoriteLocation(view);
+            }
+        });
         return  view;
     }
+    private  void fillElements(){
 
-    private void loadFavoriteLocation(View view){
+
+
+    }
+
+    public void loadFavoriteLocation(View view){
         ArrayList<Object> loadedLocations = new ArrayList<>();
         Gson gson  = new Gson();
         ArrayList<FavoriteLocation> favoriteLocationArrayList = new ArrayList<>(myRoomDatabase.favoriteLocationDAO().getAll());
 
-
         for (FavoriteLocation favoriteLocation:favoriteLocationArrayList)
             loadedLocations.add(gson.fromJson(favoriteLocation.getLocation(),Location.class));
 
-//        this.objectArrayList.clear();
+        this.objectArrayList.clear();
         this.objectArrayList.addAll(loadedLocations);
         System.out.println(gson.toJson(loadedLocations));
         this.eventoViewThinAdapter.notifyDataSetChanged();
     }
+    public void loadFavoriteEvent(View view){
+        ArrayList<Object> loadedEvents = new ArrayList<>();
+        Gson gson  = new Gson();
+        ArrayList<FavoriteEvent> favoriteEventArrayList = new ArrayList<>(myRoomDatabase.favoriteEventDAO().getAll());
+
+        for (FavoriteEvent favoriteEvent:favoriteEventArrayList)
+            loadedEvents.add(gson.fromJson(favoriteEvent.getEvent(), Event.class));
+
+        this.objectArrayList.clear();
+        this.objectArrayList.addAll(loadedEvents);
+        this.eventoViewThinAdapter.notifyDataSetChanged();
+    }
+
+    public void loadFavoriteArtist(View view){
+        ArrayList<Object> loadedArtists = new ArrayList<>();
+        Gson gson  = new Gson();
+        ArrayList<FavoriteArtist> favoriteArtistArrayList = new ArrayList<>(myRoomDatabase.favoriteArtistDAO().getAll());
+
+        for (FavoriteArtist favoriteArtist:favoriteArtistArrayList)
+            loadedArtists.add(gson.fromJson(favoriteArtist.getArtist(), Artist.class));
+
+        this.objectArrayList.clear();
+        this.objectArrayList.addAll(loadedArtists);
+        this.eventoViewThinAdapter.notifyDataSetChanged();
+    }
+
 }

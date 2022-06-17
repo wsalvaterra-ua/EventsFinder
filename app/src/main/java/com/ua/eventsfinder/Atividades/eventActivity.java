@@ -72,7 +72,7 @@ public class eventActivity extends AppCompatActivity {
 
         ((TextView) findViewById(R.id.textViewDate)).
                 setText(getString(R.string.data_with_data, dateToHuman(event.getStart().getDate()) +
-                        " - " + dateToHuman(event.getEnd().getDate())));
+                        ((event.getEnd() != null) ?" - " + dateToHuman(event.getEnd().getDate()): "")));
 
         int idParaFoto =(int) ((event.getType() ==Event.Type.CONCERT )?
                 event.getPerformances().get(0).getArtist().getId():event.getId());

@@ -79,7 +79,7 @@ public class EventoViewThinAdapter extends RecyclerView.Adapter<EventoViewThinAd
         holder.data.setText( data);
 
         holder.localizacao.setText( localizacao);
-
+        holder.imageView.setMaxHeight(1000);
         int idParaFoto =(int) ((evento.getType() ==Event.Type.CONCERT )?
                 evento.getPerformances().get(0).getArtist().getId():evento.getId());
         String tipodeEventoLink = ((evento.getType() ==Event.Type.CONCERT )? "artists":"events");
@@ -97,6 +97,7 @@ public class EventoViewThinAdapter extends RecyclerView.Adapter<EventoViewThinAd
         holder.titulo.setText(artist.getDisplayName());
         holder.data.setText((artist.getOnTourUntil() !=null) ?  "Touring until: " + dateToHuman(artist.getOnTourUntil()):"Not touring");
         holder.localizacao.setText( "");
+        holder.imageView.setMaxHeight(1000);
         String url = "https://images.sk-static.com/images/media/profile_images/artists/"+artist.getId()+"/huge_avatar";
         Picasso.get()
                 .load(url).placeholder(R.drawable.default_event).error(R.drawable.default_event)
