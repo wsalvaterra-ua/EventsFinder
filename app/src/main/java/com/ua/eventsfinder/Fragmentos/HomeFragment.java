@@ -8,18 +8,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
-import com.ua.eventsfinder.Objetos.Evento;
+import com.google.gson.Gson;
+import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter;
+import com.ua.eventsfinder.DataBase.Artist.FavoriteArtist;
+import com.ua.eventsfinder.DataBase.Event.FavoriteEvent;
+import com.ua.eventsfinder.DataBase.Location.FavoriteLocation;
+import com.ua.eventsfinder.DataBase.MyRoomDatabase;
+import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
 import com.ua.eventsfinder.Objetos.GpsTracker;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import ru.blizzed.opensongkick.ApiCaller;
 import ru.blizzed.opensongkick.OpenSongKickContext;
 import ru.blizzed.opensongkick.SongKickApi;
+import ru.blizzed.opensongkick.models.Artist;
 import ru.blizzed.opensongkick.models.Event;
+import ru.blizzed.opensongkick.models.Location;
 import ru.blizzed.opensongkick.models.ResultsPage;
 import ru.blizzed.opensongkick.params.SongKickParams;
 
@@ -29,7 +38,8 @@ import ru.blizzed.opensongkick.params.SongKickParams;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-
+    private MyRoomDatabase myRoomDatabase;
+    private Gson gson = new Gson();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -78,44 +88,131 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
+        myRoomDatabase= myRoomDatabase.getDbInstance(view.getContext());
 
-
+        loadArtistsSimiliar(view);
         getLocation(view);
+        loadEventsNearMe(view);
+        loadEventsNearCityYouFollow(view);
+        loadSimiliarArtistFromRecentSearches(view);
         return  view;
     }
+    private void loadArtistsSimiliar(View view){
+        ArrayList<FavoriteArtist> favoriteArtistArrayList =new ArrayList<>(myRoomDatabase.favoriteArtistDAO().getAll());
+        if(favoriteArtistArrayList.size()<1){
+            ((TextView) view.findViewById(R.id.textViewSimiliarArtists)).setMaxHeight(0);
+            return;
+        }
+        int randomIndex = (int) ((Math.random() * (favoriteArtistArrayList.size())) + 1)-1;
+        Artist artist = gson.fromJson(favoriteArtistArrayList.get(randomIndex).getArtist(),Artist.class);
 
+        ((TextView) view.findViewById(R.id.textViewSimiliarArtists))
+                .setText(getString(R.string.becauseYouFollow_withData ,artist.getDisplayName() ) );
+
+        SongKickApi.similarArtists(String.valueOf(artist.getId()))
+                .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
+                    @Override
+                    public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
+                        int maxResults = 35;
+                        ArrayList<Object> eventos = new ArrayList(result.getResults());
+                        if(eventos.size()> maxResults)
+                            eventos = new ArrayList<>(eventos.subList(0,maxResults));
+                        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewSimiliar);
+
+                        EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+    }
+    private void loadEventsNearCityYouFollow(View view){
+        ArrayList<FavoriteLocation> favoriteLocationArrayList =new ArrayList<>(myRoomDatabase.favoriteLocationDAO().getAll());
+        if(favoriteLocationArrayList.size()<1){
+            ((TextView) view.findViewById(R.id.textViewEventsHappeningIn)).setMaxHeight(0);
+            return;
+        }
+        int randomIndex = (int) ((Math.random() * (favoriteLocationArrayList.size())) + 1)-1;
+        Location location = gson.fromJson(favoriteLocationArrayList.get(randomIndex).getLocation(), Location.class);
+
+        ((TextView) view.findViewById(R.id.textViewEventsHappeningIn))
+                .setText(getString(R.string.eventsHappeningIn_withData , location.getCity().getDisplayName()));
+        SongKickApi.metroAreaCalendar().byId(String.valueOf(location.getMetroArea().getId()))
+                .execute(new ApiCaller.Listener<ResultsPage<Event>>() {
+                    @Override
+                    public void onComplete(ResultsPage<Event> result, ApiCaller<ResultsPage<Event>> apiCaller) {
+                        int maxResults = 35;
+                        ArrayList<Object> eventos = new ArrayList(result.getResults());
+                        if(eventos.size()> maxResults)
+                            eventos = new ArrayList<>(eventos.subList(0,maxResults));
+                        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewEventsHappeningIn);
+
+                        EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+    }
 
     public void getLocation(View view){
         GpsTracker gpsTracker = new GpsTracker(view.getContext());
         if(gpsTracker.canGetLocation()){
             this.latitude = gpsTracker.getLatitude();
             this.longitude = gpsTracker.getLongitude();
-//
-//            System.out.println("Lat: " + String.valueOf(latitude));
-//            System.out.println("Long: " + String.valueOf(longitude));
-            getByloc(view);
-        }else{
-//            System.out.println("Erro");
-            gpsTracker.showSettingsAlert();
 
+        }else{
+            gpsTracker.showSettingsAlert();
         }
     }
 
-    public void getByloc(View view){
-    Evento evento;
+    private void loadEventsNearMe(View view){
+
              SongKickApi.eventSearch()
                     .byLocation(SongKickParams.LOCATION_GEO.of(latitude, longitude))
                     .execute(new ApiCaller.Listener<ResultsPage<Event>>() {
                         @Override
                         public void onComplete(ResultsPage<Event> result, ApiCaller<ResultsPage<Event>> apiCaller) {
-
                             ArrayList<Object> eventos = new ArrayList(result.getResults());
-                            RecyclerView recyclerView =  view.findViewById(R.id.recyclerViewEventsNear);
 
-                            EventoViewThinAdapter adapter = new EventoViewThinAdapter(view.getContext(),eventos);
+                            ((TextView) view.findViewById(R.id.textViewEventsNearMe)).setText(R.string.events_happeningInYourCity);
+                            RecyclerView recyclerView =  view.findViewById(R.id.recyclerViewEventsNearMe);
+
+                            EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
                             recyclerView.setAdapter(adapter);
-
                       }
                     });
     }
+
+    private void loadSimiliarArtistFromRecentSearches(View view){
+        ArrayList<SearchHistory> objetos = new ArrayList(myRoomDatabase.searchHistoryDAO().getAll());
+        Artist artist = null;
+        for (SearchHistory searchHistory: objetos)
+            if(searchHistory.getObjetoType().equals("artist"))
+                if (artist == null)
+                    artist = gson.fromJson(searchHistory.getObjeto(), Artist.class);
+                else{
+                    artist = gson.fromJson(searchHistory.getObjeto(), Artist.class);
+                    break;
+                }
+
+
+        ((TextView) view.findViewById(R.id.textViewSimiliarArtistsToRecentSearch)).setText("");
+        if(artist == null )
+            return;
+        String artistName = artist.getDisplayName();
+        SongKickApi.similarArtists(String.valueOf(artist.getId()))
+                .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
+                    @Override
+                    public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
+                        ArrayList<Object> eventos = new ArrayList(result.getResults());
+                        RecyclerView recyclerView = (RecyclerView) view
+                                .findViewById(R.id.recyclerViewSimiliarArtistsToRecentSearch);
+
+                        ((TextView) view.findViewById(R.id.textViewSimiliarArtistsToRecentSearch))
+                                .setText(getString(R.string.sinceYouRecentlySearchedFor_withData,artistName));
+                        EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+
+    }
+
+
 }

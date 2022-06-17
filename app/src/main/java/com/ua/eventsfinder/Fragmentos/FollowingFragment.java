@@ -89,7 +89,7 @@ public class FollowingFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewMain);
         this.eventoViewThinAdapter = new EventoViewThinAdapter(view.getContext(), objectArrayList);
         recyclerView.setAdapter(eventoViewThinAdapter);
-        loadFavoriteLocation(view);
+        loadFavoriteArtist(view);
         FollowingFragment me = this;
         view.findViewById(R.id.chipArtist).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,11 +111,7 @@ public class FollowingFragment extends Fragment {
         });
         return  view;
     }
-    private  void fillElements(){
 
-
-
-    }
 
     public void loadFavoriteLocation(View view){
         ArrayList<Object> loadedLocations = new ArrayList<>();

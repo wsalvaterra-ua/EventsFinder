@@ -84,4 +84,8 @@
     <string name="metroarea_withData">%1$s , %2$s</string>
     <string name="add_to_calendar">Add To Calendar</string>
     <string name="tickets">Tickets</string>
+    <string name="becauseYouFollow_withData">Because you follow %s</string>
+    <string name="eventsHappeningIn_withData">Events happening in %s</string>
+    <string name="events_happeningInYourCity">Events happening in your city:</string>
+    <string name="sinceYouRecentlySearchedFor_withData">Since you recently searched for %s you might like:</string>
 </resources>
