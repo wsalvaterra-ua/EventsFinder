@@ -30,8 +30,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import ru.blizzed.opensongkick.OpenSongKickContext;
-import ru.blizzed.opensongkick.models.Event;
+import api.blizzed.opensongkick.OpenSongKickContext;
+import api.blizzed.opensongkick.models.Event;
 
 public class eventActivity extends AppCompatActivity {
     private Event event;

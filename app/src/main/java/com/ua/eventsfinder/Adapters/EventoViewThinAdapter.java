@@ -23,10 +23,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import ru.blizzed.opensongkick.models.Artist;
-import ru.blizzed.opensongkick.models.Event;
-import ru.blizzed.opensongkick.models.Location;
-import ru.blizzed.opensongkick.models.MetroArea;
+import api.blizzed.opensongkick.models.Artist;
+import api.blizzed.opensongkick.models.Event;
+import api.blizzed.opensongkick.models.Location;
+import api.blizzed.opensongkick.models.MetroArea;
 
 public class EventoViewThinAdapter extends RecyclerView.Adapter<EventoViewThinAdapter.MyViewHolder> {
     private Context context;

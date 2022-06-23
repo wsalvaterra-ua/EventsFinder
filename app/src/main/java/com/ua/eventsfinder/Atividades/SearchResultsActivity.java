@@ -12,11 +12,11 @@ import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
 
-import ru.blizzed.opensongkick.ApiCaller;
-import ru.blizzed.opensongkick.SongKickApi;
-import ru.blizzed.opensongkick.models.Artist;
-import ru.blizzed.opensongkick.models.Location;
-import ru.blizzed.opensongkick.models.ResultsPage;
+import api.blizzed.opensongkick.ApiCaller;
+import api.blizzed.opensongkick.SongKickApi;
+import api.blizzed.opensongkick.models.Artist;
+import api.blizzed.opensongkick.models.Location;
+import api.blizzed.opensongkick.models.ResultsPage;
 
 public class SearchResultsActivity extends AppCompatActivity {
     private final SearchResultsActivity mContext;

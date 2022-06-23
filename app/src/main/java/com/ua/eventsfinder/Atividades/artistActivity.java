@@ -25,12 +25,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
-import ru.blizzed.opensongkick.ApiCaller;
-import ru.blizzed.opensongkick.OpenSongKickContext;
-import ru.blizzed.opensongkick.SongKickApi;
-import ru.blizzed.opensongkick.models.Artist;
-import ru.blizzed.opensongkick.models.Event;
-import ru.blizzed.opensongkick.models.ResultsPage;
+import api.blizzed.opensongkick.ApiCaller;
+import api.blizzed.opensongkick.OpenSongKickContext;
+import api.blizzed.opensongkick.SongKickApi;
+import api.blizzed.opensongkick.models.Artist;
+import api.blizzed.opensongkick.models.Event;
+import api.blizzed.opensongkick.models.ResultsPage;
 
 public class artistActivity extends AppCompatActivity {
     private Artist artist;

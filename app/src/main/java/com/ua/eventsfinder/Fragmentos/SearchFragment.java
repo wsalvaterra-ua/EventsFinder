@@ -20,12 +20,12 @@ import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
 
-import ru.blizzed.opensongkick.ApiCaller;
-import ru.blizzed.opensongkick.OpenSongKickContext;
-import ru.blizzed.opensongkick.SongKickApi;
-import ru.blizzed.opensongkick.models.Artist;
-import ru.blizzed.opensongkick.models.Event;
-import ru.blizzed.opensongkick.models.ResultsPage;
+import api.blizzed.opensongkick.ApiCaller;
+import api.blizzed.opensongkick.OpenSongKickContext;
+import api.blizzed.opensongkick.SongKickApi;
+import api.blizzed.opensongkick.models.Artist;
+import api.blizzed.opensongkick.models.Event;
+import api.blizzed.opensongkick.models.ResultsPage;
 
 /**
  * A simple {@link Fragment} subclass.

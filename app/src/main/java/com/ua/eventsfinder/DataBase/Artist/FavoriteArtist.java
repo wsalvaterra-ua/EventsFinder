@@ -4,8 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import ru.blizzed.opensongkick.models.Artist;
-
 @Entity
 public class FavoriteArtist
 {

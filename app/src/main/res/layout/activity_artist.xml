@@ -140,7 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
-                        android:text="@string/upcomingevents"/>
+                        android:text="@string/upcomingEvents"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewEventsNear"
@@ -154,7 +154,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
-                        android:text="@string/similiarartists" />
+                        android:text="@string/similarArtists" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewSimiliar"
                         android:layout_width="match_parent"

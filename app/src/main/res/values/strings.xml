@@ -10,82 +10,29 @@
 
     <string name="touring_until">Touring Until: %1$s</string>
     <string name="offTour">Off Tour</string>
-    <string name="similiarartists">Similiar Artists</string>
-    <string name="upcomingevents">Upcoming Events</string>
-    <string-array name="titulos">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-    </string-array>
-    <string-array name="datas">
-        <item>09/12/12</item>
-        <item>09/11/12</item>
-        <item>Earth</item>
-        <item>09/12/12</item>
-        <item>09/12/12</item>
-        <item>Earth</item>
-        <item>09/12/12</item>
-        <item>09/12/12</item>
-        <item>Earth</item>
-        <item>Venus</item>
-        <item>09/12/12</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-    </string-array>
-    <string-array name="localizacoes">
-        <item>Lisboa</item>
-        <item>LisbDSDoa</item>
-        <item>LisSDSboa</item>
-        <item>Lisboa</item>
-        <item>LisSDboa</item>
-        <item>Lisboa</item>
-        <item>Lisboa</item>
-        <item>Lisboa</item>
-        <item>Lisboa</item>
-        <item>Venus</item>
-        <item>Lisboa</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-    </string-array>
+    <string name="similarArtists">Similar Artists</string>
+    <string name="upcomingEvents" translatable="false">Upcoming Events</string>
+
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_search">searchActivity</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="title_activity_search" translatable="false">searchActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="previous" translatable="false">Previous</string>
 
-    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_activity_main2" translatable="false">MainActivity2</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="line_up">Line Up</string>
-    <string name="events_near_city">Eventos em %1$s</string>
-    <string name="metroarea_withData">%1$s , %2$s</string>
-    <string name="add_to_calendar">Add To Calendar</string>
-    <string name="tickets">Tickets</string>
-    <string name="becauseYouFollow_withData">Because you follow %s</string>
-    <string name="eventsHappeningIn_withData">Events happening in %s</string>
-    <string name="events_happeningInYourCity">Events happening in your city:</string>
-    <string name="sinceYouRecentlySearchedFor_withData">Since you recently searched for %s you might like:</string>
+    <string name="hello_first_fragment" translatable="false">Hello first fragment</string>
+    <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
+    <string name="line_up" translatable="false">Line Up</string>
+    <string name="events_near_city" translatable="false">Eventos em %1$s</string>
+    <string name="metroArea_withData" translatable="false">%1$s , %2$s</string>
+    <string name="add_to_calendar" translatable="false">Add To Calendar</string>
+    <string name="tickets" translatable="false">Tickets</string>
+    <string name="becauseYouFollow_withData" translatable="false">Because you follow %s</string>
+    <string name="eventsHappeningIn_withData" translatable="false"><small><b>Events happening</b></small> in %s</string>
+    <string name="events_happeningInYourCity" translatable="false">Events happening in your city:</string>
+    <string name="sinceYouRecentlySearchedFor_withData" translatable="false">Based on %s you might like:</string>
 </resources>

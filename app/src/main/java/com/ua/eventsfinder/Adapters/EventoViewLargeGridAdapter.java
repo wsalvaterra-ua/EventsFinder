@@ -15,15 +15,16 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.ua.eventsfinder.Atividades.artistActivity;
 import com.ua.eventsfinder.Atividades.eventActivity;
+import com.ua.eventsfinder.Objetos.DateType;
 import com.ua.eventsfinder.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
-import ru.blizzed.opensongkick.models.Artist;
-import ru.blizzed.opensongkick.models.Event;
+import api.blizzed.opensongkick.models.Artist;
+import api.blizzed.opensongkick.models.Event;
+
 
 public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewLargeGridAdapter.MyViewHolder> {
     private final ArrayList<Object> lista;
@@ -60,7 +61,7 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
                 full.substring(0,full.lastIndexOf(" at ")):evento.getDisplayName();
 
         holder.titulo.setText(titulo);
-        holder.data.setText( dateToHuman(evento.getStart().getDate()));
+        holder.data.setText( dateToHuman(evento.getStart().getDate(),DateType.FULL_DATE));
 
         int idParaFoto =(int) ((evento.getType() ==Event.Type.CONCERT )?
                 evento.getPerformances().get(0).getArtist().getId():evento.getId());
@@ -74,25 +75,39 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
     }
     private void  handleArtist(EventoViewLargeGridAdapter.MyViewHolder holder, Artist artist){
         holder.titulo.setText(artist.getDisplayName());
-        holder.data.setText((artist.getOnTourUntil() !=null) ? "Touring until: " +dateToHuman(artist.getOnTourUntil()):"Not touring");
+        holder.data.setText((artist.getOnTourUntil() !=null) ? "Touring until: " +dateToHuman(artist.getOnTourUntil(),DateType.FULL_DATE):"Not touring");
 
         String url = "https://images.sk-static.com/images/media/profile_images/artists/"+artist.getId()+"/huge_avatar";
+
         Picasso.get()
                 .load(url).placeholder(R.drawable.default_event).error(R.drawable.default_event)
                 .into(holder.imageView);
 
     }
-    private String dateToHuman(String sdate){
-        Date date_;
-        try {
-            date_ = new SimpleDateFormat("yyyy-MM-dd").parse(sdate);
-        } catch (ParseException e) {
-            return  sdate;
-        }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, yyyy");
-        return  simpleDateFormat.format(date_);
+    private static String dateToHuman(String sdate , DateType dateType){
+        LocalDate localDate =  LocalDate.parse(sdate);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, yyyy");
+        switch (dateType){
 
+            case DAY:
+                formatter = DateTimeFormatter.ofPattern("d");
+                break;
+            case MONTH:
+                formatter = DateTimeFormatter.ofPattern("MMM");
+                break;
+            case YEAR:
+                formatter = DateTimeFormatter.ofPattern("yyyy");
+                break;
+            case FULL_DATE:
+                DateTimeFormatter.ofPattern("MMM d, yyyy");
+                break;
+        }
+
+
+
+      return  localDate.format(formatter);
     }
+
 
     @Override
     public int getItemCount() {
@@ -105,6 +120,7 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
         private  Context context;
         public TextView titulo;
         public TextView data;
+
         public ImageView imageView;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -114,6 +130,7 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
             objetoAEnviar = null;
             titulo = (TextView) itemView.findViewById(R.id.titleTextView);
             data = (TextView) itemView.findViewById(R.id.dateTextView);
+
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
 
         }

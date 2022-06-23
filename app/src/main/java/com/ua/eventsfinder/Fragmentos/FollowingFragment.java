@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
 import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
 import com.ua.eventsfinder.DataBase.Artist.FavoriteArtist;
@@ -21,10 +20,9 @@ import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
 
-import ru.blizzed.opensongkick.models.Artist;
-import ru.blizzed.opensongkick.models.Event;
-import ru.blizzed.opensongkick.models.Location;
-import ru.blizzed.opensongkick.models.MetroArea;
+import api.blizzed.opensongkick.models.Artist;
+import api.blizzed.opensongkick.models.Event;
+import api.blizzed.opensongkick.models.Location;
 
 /**
  * A simple {@link Fragment} subclass.

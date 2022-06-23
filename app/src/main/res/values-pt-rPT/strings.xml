@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Events Finder</string>
+    <string name="location">Localização</string>
+    <string name="event">Evento</string>
+    <string name="artist">Artista</string>
+    <string name="follow">Seguir</string>
+    <string name="following">Seguindo</string>
+    <string name="loading">Loading...</string>
+    <string name="data_with_data">Data:  %1$s</string>
+    <string name="touring_until">Em Tour até: %1$s</string>
+    <string name="offTour">Off Tour</string>
+    <string name="similarArtists">Artistas Parecidos</string>
+</resources>

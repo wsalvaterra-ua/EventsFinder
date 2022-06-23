@@ -2,8 +2,6 @@ package com.ua.eventsfinder.DataBase.Event;
 
 import androidx.room.*;
 
-import ru.blizzed.opensongkick.models.Event;
-
 @Entity
 public class FavoriteEvent {
 

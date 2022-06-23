@@ -16,13 +16,13 @@ import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
 
-import ru.blizzed.opensongkick.ApiCaller;
-import ru.blizzed.opensongkick.OpenSongKickContext;
-import ru.blizzed.opensongkick.SongKickApi;
-import ru.blizzed.opensongkick.models.Event;
-import ru.blizzed.opensongkick.models.Location;
-import ru.blizzed.opensongkick.models.MetroArea;
-import ru.blizzed.opensongkick.models.ResultsPage;
+import api.blizzed.opensongkick.ApiCaller;
+import api.blizzed.opensongkick.OpenSongKickContext;
+import api.blizzed.opensongkick.SongKickApi;
+import api.blizzed.opensongkick.models.Event;
+import api.blizzed.opensongkick.models.Location;
+import api.blizzed.opensongkick.models.MetroArea;
+import api.blizzed.opensongkick.models.ResultsPage;
 
 public class locationActivity extends AppCompatActivity {
     private MetroArea metroArea;
@@ -44,7 +44,7 @@ public class locationActivity extends AppCompatActivity {
     }
     private  void fillElements(){
         ((TextView) findViewById(R.id.textViewEventsHappeningIn)).setText(getString(R.string.events_near_city, metroArea.getDisplayName()));
-        ((TextView) findViewById(R.id.textViewName)).setText(getString(R.string.metroarea_withData , metroArea.getCountry().getDisplayName() , metroArea.getDisplayName()));
+        ((TextView) findViewById(R.id.textViewName)).setText(getString(R.string.metroArea_withData, metroArea.getCountry().getDisplayName() , metroArea.getDisplayName()));
         loadEventsNearLocation(this);
 
         Chip chipFavorite = ((Chip) findViewById(R.id.chipFavorite));

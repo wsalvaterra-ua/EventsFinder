@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter;
 import com.ua.eventsfinder.DataBase.Artist.FavoriteArtist;
-import com.ua.eventsfinder.DataBase.Event.FavoriteEvent;
 import com.ua.eventsfinder.DataBase.Location.FavoriteLocation;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
 import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
@@ -21,16 +20,15 @@ import com.ua.eventsfinder.Objetos.GpsTracker;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
-import java.util.Random;
 
-import ru.blizzed.opensongkick.ApiCaller;
-import ru.blizzed.opensongkick.OpenSongKickContext;
-import ru.blizzed.opensongkick.SongKickApi;
-import ru.blizzed.opensongkick.models.Artist;
-import ru.blizzed.opensongkick.models.Event;
-import ru.blizzed.opensongkick.models.Location;
-import ru.blizzed.opensongkick.models.ResultsPage;
-import ru.blizzed.opensongkick.params.SongKickParams;
+import api.blizzed.opensongkick.ApiCaller;
+import api.blizzed.opensongkick.OpenSongKickContext;
+import api.blizzed.opensongkick.SongKickApi;
+import api.blizzed.opensongkick.models.Artist;
+import api.blizzed.opensongkick.models.Event;
+import api.blizzed.opensongkick.models.Location;
+import api.blizzed.opensongkick.models.ResultsPage;
+import api.blizzed.opensongkick.params.SongKickParams;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -125,6 +123,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+    //TODO fazer verificar que cidade tem pelo menos um evento
     private void loadEventsNearCityYouFollow(View view){
         ArrayList<FavoriteLocation> favoriteLocationArrayList =new ArrayList<>(myRoomDatabase.favoriteLocationDAO().getAll());
         if(favoriteLocationArrayList.size()<1){

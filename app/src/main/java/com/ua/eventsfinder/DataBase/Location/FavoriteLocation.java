@@ -2,8 +2,6 @@ package com.ua.eventsfinder.DataBase.Location;
 
 import androidx.room.*;
 
-import ru.blizzed.opensongkick.models.Location;
-
 @Entity
 public class FavoriteLocation
 {
