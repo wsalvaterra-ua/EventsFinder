@@ -44,7 +44,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/gradient_bg">
+                    android:background="@drawable/gradient_for_photo">
 
 
                 </FrameLayout>
@@ -60,7 +60,7 @@
                         android:id="@+id/textViewName"
                         style="@style/TextAppearance.MaterialComponents.Headline3"
                         android:layout_width="wrap_content"
-
+                        android:layout_marginStart="10dp"
                         android:layout_height="wrap_content"
                         android:text="@string/loading"
                         android:textColor="#FAFAFA"

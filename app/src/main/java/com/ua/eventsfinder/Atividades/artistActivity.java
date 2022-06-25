@@ -99,7 +99,7 @@ public class artistActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(ResultsPage<Event> result, ApiCaller<ResultsPage<Event>> apiCaller) {
 
-                        ArrayList<Object> eventos = new ArrayList(result.getResults());
+                        ArrayList<Object> eventos = new ArrayList<Object>(result.getResults());
                         RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewEventsNear);
 
                         EventoViewThinAdapter adapter = new EventoViewThinAdapter(context, eventos);
@@ -124,7 +124,7 @@ public class artistActivity extends AppCompatActivity {
                 .execute(new ApiCaller.Listener<ResultsPage<Artist>>() {
                     @Override
                     public void onComplete(ResultsPage<Artist> result, ApiCaller<ResultsPage<Artist>> apiCaller) {
-                        ArrayList<Object> eventos = new ArrayList(result.getResults());
+                        ArrayList<Object> eventos = new ArrayList<Object>(result.getResults());
                         RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewSimiliar);
 
                         EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos, context);

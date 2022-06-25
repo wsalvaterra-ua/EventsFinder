@@ -11,4 +11,7 @@
     <string name="touring_until">Em Tour até: %1$s</string>
     <string name="offTour">Off Tour</string>
     <string name="similarArtists">Artistas Parecidos</string>
+    <string name="recently_viewed">Recently viewed</string>
+    <string name="you_might_also_like">You might also like</string>
+    <string name="search">Search</string>
 </resources>

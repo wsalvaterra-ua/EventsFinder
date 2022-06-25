@@ -2,7 +2,7 @@
     <string name="artist">Artista</string>
     <string name="event">Evento</string>
     <string name="location">Localização</string>
-    <string name="app_name">Events Finder</string>
+    <string name="app_name">Where Is The Music?</string>
     <string name="follow">Follow</string>
     <string name="following">Following</string>
     <string name="loading">Loading…</string>
@@ -35,4 +35,7 @@
     <string name="eventsHappeningIn_withData" translatable="false"><small><b>Events happening</b></small> in %s</string>
     <string name="events_happeningInYourCity" translatable="false">Events happening in your city:</string>
     <string name="sinceYouRecentlySearchedFor_withData" translatable="false">Based on %s you might like:</string>
+    <string name="recently_viewed">Recently viewed</string>
+    <string name="you_might_also_like">You might also like</string>
+    <string name="search">Search</string>
 </resources>
