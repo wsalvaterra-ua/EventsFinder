@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/TextAppearance.Material3.TitleSmall"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -33,9 +34,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+
                     <ImageView
                         android:id="@+id/imageView"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         app:srcCompat="@mipmap/ic_launcher" />
@@ -43,7 +45,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:background="@drawable/gradient_bg_for_miniphoto">
 
 
                     </LinearLayout>
@@ -54,10 +57,12 @@
                 <TextView
 
                     android:id="@+id/titleTextView"
+                    style="@style/TextAppearance.Material3.TitleSmall"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:paddingHorizontal="5dp"
+                    android:lines="2"
                     android:text="@string/loading" />
 
                 <TextView
@@ -67,6 +72,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:paddingHorizontal="5dp"
+                    android:lines="2"
                     android:text="@string/loading" />
 
 

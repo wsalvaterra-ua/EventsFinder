@@ -107,6 +107,7 @@ public class SearchFragment extends Fragment {
                         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragmentSearchRecyclerViewMain);
 
                         EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
+                        adapter.maxSize = 300;
                         recyclerView.setAdapter(adapter);
                     }
                 });
@@ -125,6 +126,9 @@ public class SearchFragment extends Fragment {
                 historicos.add((new Gson()).fromJson(searchHistory.getObjeto(), Event.class));
         }
         EventoViewLargeGridAdapter eventoViewLargeGridAdapter = new EventoViewLargeGridAdapter(historicos,view.getContext());
+        eventoViewLargeGridAdapter.maxSize = 250;
+        eventoViewLargeGridAdapter.hideDateTextView = true;
+
         ((RecyclerView)view.findViewById(R.id.recyclerViewSearchHistory)).setAdapter(eventoViewLargeGridAdapter);
         return id;
     }

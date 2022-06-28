@@ -29,10 +29,14 @@ import api.blizzed.opensongkick.models.Event;
 public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewLargeGridAdapter.MyViewHolder> {
     private final ArrayList<Object> lista;
     Context context;
+    public int maxSize;
+    public  boolean hideDateTextView;
 
     public EventoViewLargeGridAdapter(ArrayList<Object> lista, Context context) {
         this.lista = lista;
         this.context = context;
+        this.maxSize = 400;
+        this.hideDateTextView = false;
     }
 
     @NonNull
@@ -51,6 +55,12 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
         else if(lista.get(position) instanceof  Artist)
             handleArtist(holder,(Artist) lista.get(position));
         holder.setObjetoAEnviar(lista.get(position),context);
+        if(hideDateTextView)
+            holder.data.setVisibility(View.GONE);
+
+        holder.titulo.setMaxWidth(maxSize);
+        holder.data.setMaxWidth(maxSize);
+
     }
 
     private void  handleEvent(EventoViewLargeGridAdapter.MyViewHolder holder, Event evento){
@@ -71,7 +81,8 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
 
         Picasso.get()
                 .load(url).placeholder(R.drawable.default_event).error(R.drawable.default_event)
-                .into(holder.imageView);
+                .resize(maxSize,0).into(holder.imageView);
+
     }
     private void  handleArtist(EventoViewLargeGridAdapter.MyViewHolder holder, Artist artist){
         holder.titulo.setText(artist.getDisplayName());
@@ -80,7 +91,8 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
         String url = "https://images.sk-static.com/images/media/profile_images/artists/"+artist.getId()+"/huge_avatar";
 
         Picasso.get()
-                .load(url).placeholder(R.drawable.default_event).error(R.drawable.default_event)
+                .load(url).placeholder(R.drawable.default_event)
+                .error(R.drawable.default_event).resize(maxSize,0)
                 .into(holder.imageView);
 
     }
@@ -130,7 +142,6 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
             objetoAEnviar = null;
             titulo = (TextView) itemView.findViewById(R.id.titleTextView);
             data = (TextView) itemView.findViewById(R.id.dateTextView);
-
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
 
         }

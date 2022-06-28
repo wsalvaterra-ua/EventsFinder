@@ -21,7 +21,9 @@
     <style name="Theme.EventsFinder.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
     </style>
     <style name="Theme.EventsFinder.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.EventsFinder.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
