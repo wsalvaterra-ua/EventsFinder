@@ -49,6 +49,7 @@ public class EventoViewThinAdapter extends RecyclerView.Adapter<EventoViewThinAd
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.imageViewHolder.setVisibility(View.VISIBLE);
         if(lista.get(position) instanceof  Event)
             handleEvent(holder,(Event) lista.get(position));
         else if(lista.get(position) instanceof  Artist)
@@ -59,7 +60,7 @@ public class EventoViewThinAdapter extends RecyclerView.Adapter<EventoViewThinAd
 
     }
     private void handleLocation(EventoViewThinAdapter.MyViewHolder holder, MetroArea location){
-
+        holder.imageViewHolder.setVisibility(View.GONE);
         holder.titulo.setText(location.getDisplayName());
         holder.data.setText(location.getCountry().getDisplayName());
         holder.localizacao.setText("");
@@ -130,6 +131,7 @@ private String dateToHuman(String sdate){
         public TextView data;
         public TextView localizacao;
         public ImageView imageView;
+        public ImageView imageViewHolder;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -139,6 +141,7 @@ private String dateToHuman(String sdate){
             data = (TextView) itemView.findViewById(R.id.dateTextView);
             localizacao = (TextView) itemView.findViewById(R.id.locationTextView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            imageViewHolder = (ImageView) itemView.findViewById(R.id.imageViewHolder);
             view = itemView;
         }
 

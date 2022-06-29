@@ -128,6 +128,8 @@ public class artistActivity extends AppCompatActivity {
                         RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewSimiliar);
 
                         EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos, context);
+                       adapter.gradientFundoBaixo = false;
+                       adapter.gradientFundoCima = false;
                         recyclerView.setAdapter(adapter);
                     }
                 });

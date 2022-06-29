@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,7 +31,8 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
     private final ArrayList<Object> lista;
     Context context;
     public int maxSize;
-    public Boolean gradientFundo;
+    public Boolean gradientFundoBaixo;
+    public Boolean gradientFundoCima;
     public  boolean hideDateTextView;
 
     public EventoViewLargeGridAdapter(ArrayList<Object> lista, Context context) {
@@ -39,7 +40,8 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
         this.context = context;
         this.maxSize = 400;
         this.hideDateTextView = false;
-        this.gradientFundo = true;
+        this.gradientFundoBaixo = true;
+        this.gradientFundoCima = true;
     }
 
     @NonNull
@@ -60,8 +62,10 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
         holder.setObjetoAEnviar(lista.get(position),context);
         if(hideDateTextView)
             holder.data.setVisibility(View.GONE);
-        if(!gradientFundo)
-            holder.gradientFundo.setVisibility(View.GONE);
+        if(!gradientFundoBaixo)
+            holder.gradientFundoBaixo.setVisibility(View.GONE);
+        if(!gradientFundoCima)
+            holder.gradientFundoCima.setVisibility(View.GONE);
         holder.titulo.setMaxWidth(maxSize);
         holder.data.setMaxWidth(maxSize);
 
@@ -140,7 +144,8 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
         private Object objetoAEnviar;
         private  Context context;
         public TextView titulo;
-        public LinearLayout gradientFundo;
+        public View gradientFundoBaixo;
+        public View gradientFundoCima;
         public TextView data;
 
         public ImageView imageView;
@@ -151,7 +156,8 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
 
             itemView.setOnClickListener(this);
             objetoAEnviar = null;
-            gradientFundo =  itemView.findViewById(R.id.gradientMediumPhotoLayout);
+            gradientFundoBaixo =  itemView.findViewById(R.id.gradientMediumPhotoLayoutBottom);
+            gradientFundoCima =  itemView.findViewById(R.id.gradientMediumPhotoLayout);
             titulo = (TextView) itemView.findViewById(R.id.titleTextView);
             data = (TextView) itemView.findViewById(R.id.dateTextView);
             imageViewHolder = (ImageView) itemView.findViewById(R.id.imageViewHolder);
