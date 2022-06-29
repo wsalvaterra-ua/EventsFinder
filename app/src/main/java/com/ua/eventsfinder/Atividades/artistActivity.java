@@ -11,8 +11,8 @@ import android.widget.TextView;
 import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter;
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
+import com.ua.eventsfinder.Adapters.LargeAdapter;
+import com.ua.eventsfinder.Adapters.ThinAdapter;
 import com.ua.eventsfinder.DataBase.Artist.FavoriteArtist;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
 import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
@@ -102,7 +102,7 @@ public class artistActivity extends AppCompatActivity {
                         ArrayList<Object> eventos = new ArrayList<Object>(result.getResults());
                         RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewEventsNear);
 
-                        EventoViewThinAdapter adapter = new EventoViewThinAdapter(context, eventos);
+                        ThinAdapter adapter = new ThinAdapter(context, eventos);
                         recyclerView.setAdapter(adapter);
                     }
                 });
@@ -127,9 +127,8 @@ public class artistActivity extends AppCompatActivity {
                         ArrayList<Object> eventos = new ArrayList<Object>(result.getResults());
                         RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewSimiliar);
 
-                        EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos, context);
+                        LargeAdapter adapter = new LargeAdapter(eventos, context);
                        adapter.gradientFundoBaixo = false;
-                       adapter.gradientFundoCima = false;
                         recyclerView.setAdapter(adapter);
                     }
                 });

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
+import com.ua.eventsfinder.Adapters.ThinAdapter;
 import com.ua.eventsfinder.DataBase.Artist.FavoriteArtist;
 import com.ua.eventsfinder.DataBase.Event.FavoriteEvent;
 import com.ua.eventsfinder.DataBase.Location.FavoriteLocation;
@@ -32,7 +32,7 @@ import api.blizzed.opensongkick.models.Location;
 public class FollowingFragment extends Fragment {
     private final Context mContext;
     private MyRoomDatabase myRoomDatabase;
-    private EventoViewThinAdapter eventoViewThinAdapter;
+    private ThinAdapter thinAdapter;
     private ArrayList<Object> objectArrayList;
     private int selectionMode;
     // TODO: Rename parameter arguments, choose names that match
@@ -85,8 +85,8 @@ public class FollowingFragment extends Fragment {
 
         myRoomDatabase = MyRoomDatabase.getDbInstance(view.getContext());
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewMain);
-        this.eventoViewThinAdapter = new EventoViewThinAdapter(view.getContext(), objectArrayList);
-        recyclerView.setAdapter(eventoViewThinAdapter);
+        this.thinAdapter = new ThinAdapter(view.getContext(), objectArrayList);
+        recyclerView.setAdapter(thinAdapter);
         loadFavoriteEvent(view);
         FollowingFragment me = this;
         view.findViewById(R.id.chipArtist).setOnClickListener(new View.OnClickListener() {
@@ -121,7 +121,7 @@ public class FollowingFragment extends Fragment {
 
         this.objectArrayList.clear();
         this.objectArrayList.addAll(loadedLocations);
-        this.eventoViewThinAdapter.notifyDataSetChanged();
+        this.thinAdapter.notifyDataSetChanged();
     }
     public void loadFavoriteEvent(View view){
         ArrayList<Object> loadedEvents = new ArrayList<>();
@@ -132,7 +132,7 @@ public class FollowingFragment extends Fragment {
 
         this.objectArrayList.clear();
         this.objectArrayList.addAll(loadedEvents);
-        this.eventoViewThinAdapter.notifyDataSetChanged();
+        this.thinAdapter.notifyDataSetChanged();
     }
 
     public void loadFavoriteArtist(View view){
@@ -146,7 +146,7 @@ public class FollowingFragment extends Fragment {
 
         this.objectArrayList.clear();
         this.objectArrayList.addAll(loadedArtists);
-        this.eventoViewThinAdapter.notifyDataSetChanged();
+        this.thinAdapter.notifyDataSetChanged();
     }
 
 }

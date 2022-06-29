@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.SearchView;
 
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
+import com.ua.eventsfinder.Adapters.ThinAdapter;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;
@@ -20,14 +20,14 @@ import api.blizzed.opensongkick.models.ResultsPage;
 
 public class SearchResultsActivity extends AppCompatActivity {
     private final SearchResultsActivity mContext;
-    private EventoViewThinAdapter SearchResultsAdapter;
+    private ThinAdapter SearchResultsAdapter;
     private ArrayList<Object> pesquisaLista;
     private int selectionMode;
 
     public SearchResultsActivity() {
         this.mContext = this;
         this.pesquisaLista =  new ArrayList<>();
-        this.SearchResultsAdapter = new EventoViewThinAdapter(this,pesquisaLista);
+        this.SearchResultsAdapter = new ThinAdapter(this,pesquisaLista);
         this.selectionMode = 0;
     }
     @Override

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
+import com.ua.eventsfinder.Adapters.ThinAdapter;
 import com.ua.eventsfinder.DataBase.Event.FavoriteEvent;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
 import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
@@ -112,7 +112,7 @@ public class eventActivity extends AppCompatActivity {
             artistas.add(performance.getArtist());
 
         RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewEventsNear);
-        EventoViewThinAdapter adapter = new EventoViewThinAdapter(context,artistas);
+        ThinAdapter adapter = new ThinAdapter(context,artistas);
         recyclerView.setAdapter(adapter);
 
     }

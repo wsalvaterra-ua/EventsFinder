@@ -12,6 +12,7 @@
         android:layout_marginHorizontal="3dp"
         android:layout_marginVertical="3dp"
         app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/gradientMediumPhotoLayout"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +45,7 @@
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         app:srcCompat="@drawable/default_event" />
+
                     <ImageView
                         android:id="@+id/imageView"
                         android:layout_width="wrap_content"
@@ -114,7 +116,7 @@
     </androidx.cardview.widget.CardView>
 
     <FrameLayout
-        android:translationZ="@dimen/cardview_default_elevation"
+
         android:id="@+id/gradientMediumPhotoLayout"
         android:layout_marginStart="-20dp"
         android:layout_width="45dp"

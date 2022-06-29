@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.gson.Gson;
-import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter;
+import com.ua.eventsfinder.Adapters.LargeAdapter;
 import com.ua.eventsfinder.Atividades.SearchResultsActivity;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
 import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
@@ -106,7 +106,7 @@ public class SearchFragment extends Fragment {
                         ArrayList<Object> eventos = new ArrayList(result.getResults());
                         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragmentSearchRecyclerViewMain);
 
-                        EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
+                        LargeAdapter adapter = new LargeAdapter(eventos,view.getContext());
                         adapter.maxSize = 300;
                         adapter.gradientFundoBaixo = false;
                         recyclerView.setAdapter(adapter);
@@ -126,14 +126,11 @@ public class SearchFragment extends Fragment {
             else if(searchHistory.getObjetoType().equals("event"))
                 historicos.add((new Gson()).fromJson(searchHistory.getObjeto(), Event.class));
         }
-        EventoViewLargeGridAdapter eventoViewLargeGridAdapter = new EventoViewLargeGridAdapter(historicos,view.getContext());
+        LargeAdapter eventoViewLargeGridAdapter = new LargeAdapter(historicos,view.getContext());
         eventoViewLargeGridAdapter.maxSize = 250;
         eventoViewLargeGridAdapter.hideDateTextView = true;
 
         ((RecyclerView)view.findViewById(R.id.recyclerViewSearchHistory)).setAdapter(eventoViewLargeGridAdapter);
         return id;
     }
-
-
-
 }

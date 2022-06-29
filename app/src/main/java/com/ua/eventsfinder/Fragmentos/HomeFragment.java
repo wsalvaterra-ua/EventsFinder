@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.ua.eventsfinder.Adapters.EventoViewLargeGridAdapter;
+import com.ua.eventsfinder.Adapters.LargeAdapter;
 import com.ua.eventsfinder.DataBase.Artist.FavoriteArtist;
 import com.ua.eventsfinder.DataBase.Location.FavoriteLocation;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
@@ -118,12 +118,11 @@ public class HomeFragment extends Fragment {
                             eventos = new ArrayList<>(eventos.subList(0,maxResults));
                         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewSimiliar);
 
-                        EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
+                        LargeAdapter adapter = new LargeAdapter(eventos,view.getContext());
                         recyclerView.setAdapter(adapter);
                     }
                 });
     }
-    //TODO fazer verificar que cidade tem pelo menos um evento
     private void loadEventsNearCityYouFollow(View view){
         ArrayList<FavoriteLocation> favoriteLocationArrayList =new ArrayList<>(myRoomDatabase.favoriteLocationDAO().getAll());
         if(favoriteLocationArrayList.size()<1){
@@ -145,7 +144,7 @@ public class HomeFragment extends Fragment {
                             eventos = new ArrayList<>(eventos.subList(0,maxResults));
                         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewEventsHappeningIn);
 
-                        EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
+                        LargeAdapter adapter = new LargeAdapter(eventos,view.getContext());
                         recyclerView.setAdapter(adapter);
                     }
                 });
@@ -174,7 +173,7 @@ public class HomeFragment extends Fragment {
                             ((TextView) view.findViewById(R.id.textViewEventsNearMe)).setText(R.string.events_happeningInYourCity);
                             RecyclerView recyclerView =  view.findViewById(R.id.recyclerViewEventsNearMe);
 
-                            EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
+                            LargeAdapter adapter = new LargeAdapter(eventos,view.getContext());
                             recyclerView.setAdapter(adapter);
                       }
                     });
@@ -207,7 +206,7 @@ public class HomeFragment extends Fragment {
 
                         ((TextView) view.findViewById(R.id.textViewSimiliarArtistsToRecentSearch))
                                 .setText(getString(R.string.sinceYouRecentlySearchedFor_withData,artistName));
-                        EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
+                        LargeAdapter adapter = new LargeAdapter(eventos,view.getContext());
                         recyclerView.setAdapter(adapter);
                     }
                 });

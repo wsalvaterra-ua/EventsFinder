@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
-import com.ua.eventsfinder.Adapters.EventoViewThinAdapter;
+import com.ua.eventsfinder.Adapters.ThinAdapter;
 import com.ua.eventsfinder.DataBase.Location.FavoriteLocation;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
 import com.ua.eventsfinder.R;
@@ -70,7 +70,7 @@ public class locationActivity extends AppCompatActivity {
                         ArrayList<Object> eventos = new ArrayList(result.getResults());
                         RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.recyclerViewEventsNear);
 
-                        EventoViewThinAdapter adapter = new EventoViewThinAdapter(context,eventos);
+                        ThinAdapter adapter = new ThinAdapter(context,eventos);
                         recyclerView.setAdapter(adapter);
                     }
                 });
