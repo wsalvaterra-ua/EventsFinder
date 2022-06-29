@@ -63,9 +63,9 @@ public class EventoViewThinAdapter extends RecyclerView.Adapter<EventoViewThinAd
         holder.titulo.setText(location.getDisplayName());
         holder.data.setText(location.getCountry().getDisplayName());
         holder.localizacao.setText("");
-        holder.imageView.setMaxHeight(130);
+//        holder.imageView.setMaxHeight(130);
         Picasso.get()
-                .load(R.drawable.location_small).into(holder.imageView);
+                .load(R.drawable.location_small).resize(150,0).into(holder.imageView);
     }
 
 

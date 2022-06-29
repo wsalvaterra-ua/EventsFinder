@@ -125,6 +125,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/app_name"
+            app:subtitle="Track your favorite Artists"
             app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -78,6 +78,7 @@
                         android:text="@string/follow"
                         app:checkedIcon="@drawable/ic_baseline_favorite_24"
                         app:checkedIconTint="#D52E2E"
+                        android:layout_marginStart="6dp"
                         app:chipIcon="@drawable/ic_outline_favorite_border_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -175,6 +176,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginStart="10dp"
                         android:text="@string/line_up" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -192,6 +195,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-28dp"
+                android:backgroundTint="@color/purple_200"
                 android:clickable="true"
                 android:contentDescription="@string/add_to_calendar"
                 android:onClick="openCalendar"

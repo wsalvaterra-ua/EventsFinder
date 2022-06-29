@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
     private final ArrayList<Object> lista;
     Context context;
     public int maxSize;
+    public Boolean gradientFundo;
     public  boolean hideDateTextView;
 
     public EventoViewLargeGridAdapter(ArrayList<Object> lista, Context context) {
@@ -37,6 +39,7 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
         this.context = context;
         this.maxSize = 400;
         this.hideDateTextView = false;
+        this.gradientFundo = true;
     }
 
     @NonNull
@@ -57,7 +60,8 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
         holder.setObjetoAEnviar(lista.get(position),context);
         if(hideDateTextView)
             holder.data.setVisibility(View.GONE);
-
+        if(!gradientFundo)
+            holder.gradientFundo.setVisibility(View.GONE);
         holder.titulo.setMaxWidth(maxSize);
         holder.data.setMaxWidth(maxSize);
 
@@ -80,8 +84,11 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
         String url = "https://images.sk-static.com/images/media/profile_images/"+tipodeEventoLink+"/"+idParaFoto+"/huge_avatar";
 
         Picasso.get()
-                .load(url).placeholder(R.drawable.default_event).error(R.drawable.default_event)
-                .resize(maxSize,0).into(holder.imageView);
+                .load(R.drawable.default_event)
+                .resize(maxSize,0).into(holder.imageViewHolder);
+
+        Picasso.get()
+                .load(url).resize(maxSize,0).into(holder.imageView);
 
     }
     private void  handleArtist(EventoViewLargeGridAdapter.MyViewHolder holder, Artist artist){
@@ -91,9 +98,11 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
         String url = "https://images.sk-static.com/images/media/profile_images/artists/"+artist.getId()+"/huge_avatar";
 
         Picasso.get()
-                .load(url).placeholder(R.drawable.default_event)
-                .error(R.drawable.default_event).resize(maxSize,0)
-                .into(holder.imageView);
+                .load(R.drawable.default_event)
+                .resize(maxSize,0).into(holder.imageViewHolder);
+
+        Picasso.get()
+                .load(url).resize(maxSize,0).into(holder.imageView);
 
     }
     private static String dateToHuman(String sdate , DateType dateType){
@@ -131,17 +140,21 @@ public class EventoViewLargeGridAdapter extends RecyclerView.Adapter<EventoViewL
         private Object objetoAEnviar;
         private  Context context;
         public TextView titulo;
+        public LinearLayout gradientFundo;
         public TextView data;
 
         public ImageView imageView;
+        public ImageView imageViewHolder;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             itemView.setOnClickListener(this);
             objetoAEnviar = null;
+            gradientFundo =  itemView.findViewById(R.id.gradientMediumPhotoLayout);
             titulo = (TextView) itemView.findViewById(R.id.titleTextView);
             data = (TextView) itemView.findViewById(R.id.dateTextView);
+            imageViewHolder = (ImageView) itemView.findViewById(R.id.imageViewHolder);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
 
         }

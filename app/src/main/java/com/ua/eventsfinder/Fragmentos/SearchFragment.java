@@ -108,6 +108,7 @@ public class SearchFragment extends Fragment {
 
                         EventoViewLargeGridAdapter adapter = new EventoViewLargeGridAdapter(eventos,view.getContext());
                         adapter.maxSize = 300;
+                        adapter.gradientFundo = false;
                         recyclerView.setAdapter(adapter);
                     }
                 });
