@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         this.latitude = 0;
         this.longitude = 0;
-        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
+        OpenSongKickContext.initialize(SongKickAPIKey.key);
         // Required empty public constructor
     }
 

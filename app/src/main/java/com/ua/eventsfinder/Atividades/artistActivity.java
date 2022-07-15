@@ -16,6 +16,7 @@ import com.ua.eventsfinder.Adapters.ThinAdapter;
 import com.ua.eventsfinder.DataBase.Artist.FavoriteArtist;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
 import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
+import com.ua.eventsfinder.Objetos.SongKickAPIKey;
 import com.ua.eventsfinder.R;
 
 import java.text.ParseException;
@@ -43,7 +44,7 @@ public class artistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_artist);
         Bundle extras = getIntent().getExtras();
 
-        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
+        OpenSongKickContext.initialize(SongKickAPIKey.key);
 
         if (extras != null)
             this.artist = new Gson().fromJson(extras.getString("artist"), Artist.class);

@@ -1,6 +1,8 @@
 package api.blizzed.opensongkick;
 
 import com.google.gson.Gson;
+import com.ua.eventsfinder.Objetos.SongKickAPIKey;
+
 import api.blizzed.opensongkick.models.Error;
 import api.blizzed.opensongkick.models.Location;
 import api.blizzed.opensongkick.models.ResultsPage;
@@ -27,7 +29,7 @@ public class Launcher {
             /*ResultsPage<Event> eventResultsPage = gson.fromJson(Files.newBufferedReader(Paths.get("mock/event.search.json")), new TypeToken<ResultsPage<Event>>(){}.getType());
             eventResultsPage.getResults().forEach(event -> System.out.println(event.getPerformances().get(0).getArtist().getIdentifiers().get(0).getMbid()));*/
 
-            OpenSongKickContext.initialize("klmTXugRXdbjPJ7z");
+            OpenSongKickContext.initialize(SongKickAPIKey.key);
             SongKickApi.eventSearch()
                     .byLocation(
                             SongKickParams.ARTIST_NAME.of("Cradle Of Filth")

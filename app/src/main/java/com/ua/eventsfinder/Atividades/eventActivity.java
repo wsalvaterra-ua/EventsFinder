@@ -45,7 +45,7 @@ public class eventActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
+        OpenSongKickContext.initialize(SongKickAPIKey.key);
 
         if (extras != null)
             this.event =new Gson().fromJson(extras.getString("event"), Event.class) ;

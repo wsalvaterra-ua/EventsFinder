@@ -34,7 +34,7 @@ public class locationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
-        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
+        OpenSongKickContext.initialize(SongKickAPIKey.key);
         Bundle extras = getIntent().getExtras();
          if (extras != null)
             this.location =new Gson().fromJson(extras.getString("location"),Location.class) ;

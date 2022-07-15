@@ -44,7 +44,7 @@ public class SearchFragment extends Fragment {
     private String mParam2;
     private MyRoomDatabase myRoomDatabase;
     public SearchFragment() {
-        OpenSongKickContext.initialize("lKLDro9R9AqqXm1b");
+        OpenSongKickContext.initialize(SongKickAPIKey.key);
         // Required empty public constructor
     }
 
@@ -95,7 +95,7 @@ public class SearchFragment extends Fragment {
 
 
     public void loadSimiliarArtistIntoView(View view){
-            long id =loadRecentSearchesIntoView(view);
+            long id = loadRecentSearchesIntoView(view);
             if(id == 0){
                 id = 2596951;
             }
