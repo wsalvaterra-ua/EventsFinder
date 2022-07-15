@@ -2,8 +2,7 @@
 
 ## About the app
 
-The purpose of this Android application is what allows the user to stay for future musical events of artists that interest him or in areas that interest him.
-The user can follow events, which is the equivalent of saving it so that he doesn't forget, follow cities/zones so that they are also aware of interesting events in the locations that interest him, and he can also follow artists so that he is aware of events in the that may be of interest.
+This Android application will allow the user to stay tuned to future musical events of artists that might interest him or in cities that he might want to watch, to do that the user must the artist or city that interests him.
 The application uses as a data source or SongKickApi.
 
 ## Structure
