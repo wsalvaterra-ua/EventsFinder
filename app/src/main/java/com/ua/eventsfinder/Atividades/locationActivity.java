@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.ua.eventsfinder.Adapters.ThinAdapter;
 import com.ua.eventsfinder.DataBase.Location.FavoriteLocation;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
+import com.ua.eventsfinder.Objetos.SongKickAPIKey;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;

@@ -17,6 +17,7 @@ import com.ua.eventsfinder.DataBase.Location.FavoriteLocation;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
 import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
 import com.ua.eventsfinder.Objetos.GpsTracker;
+import com.ua.eventsfinder.Objetos.SongKickAPIKey;
 import com.ua.eventsfinder.R;
 
 import java.util.ArrayList;

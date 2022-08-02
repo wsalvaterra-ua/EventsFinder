@@ -18,6 +18,7 @@ import com.ua.eventsfinder.Adapters.ThinAdapter;
 import com.ua.eventsfinder.DataBase.Event.FavoriteEvent;
 import com.ua.eventsfinder.DataBase.MyRoomDatabase;
 import com.ua.eventsfinder.DataBase.SearchHistory.SearchHistory;
+import com.ua.eventsfinder.Objetos.SongKickAPIKey;
 import com.ua.eventsfinder.R;
 
 import java.text.ParseException;
