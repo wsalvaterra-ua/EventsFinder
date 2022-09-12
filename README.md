@@ -3,7 +3,7 @@
 ## About the app
 
 This Android application will allow the user to stay tuned to future musical events of artists that might interest him or in cities that he might want to watch, to do that the user must the artist or city that interests him.
-The application uses as a data source or SongKickApi.
+The application uses as data source the SongKickApi.
 
 **You must first get a SongKick Api key before using this app**
 https://www.songkick.com/api_key_requests/new
